@@ -1,12 +1,12 @@
 import './Loader.css';
 import SvgIcon from '../utils/SvgIcon.tsx';
 
-interface LoaderProps {
+interface ILoaderProps {
   size: 'small' | 'large';
   text?: string;
 }
 
-export const Loader = ({ size, text = 'Loading characters...' }: LoaderProps) => {
+export const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
   return size === 'large' ? (
     <div className='loader'>
       <div className='loader__logo'>
