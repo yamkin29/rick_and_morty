@@ -1,0 +1,32 @@
+.character-page {
+    width: 100%;
+}
+
+.character-page__back-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 22%;
+    margin-top: 3%;
+}
+
+.character-page__button {
+    height: 24px;
+    display: flex;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.character-page__text {
+    color: rgba(0, 0, 0, 1);
+    font-family: Karla, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    margin: 2px 0 1px 8px;
+}

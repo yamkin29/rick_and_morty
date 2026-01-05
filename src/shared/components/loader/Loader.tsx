@@ -8,7 +8,7 @@ interface LoaderProps {
 
 export const Loader = ({ size, text = 'Loading characters...' }: LoaderProps) => {
   return size === 'large' ? (
-    <div className='loader__container'>
+    <div className='loader'>
       <div className='loader__logo'>
         <SvgIcon
           iconName='loader'
@@ -18,7 +18,7 @@ export const Loader = ({ size, text = 'Loading characters...' }: LoaderProps) =>
       <div className='loader__text'>{text}</div>
     </div>
   ) : (
-    <div className='loader__container'>
+    <div className='loader'>
       <div className='loader__logo'>
         <SvgIcon
           iconName='loader'

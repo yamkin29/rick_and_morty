@@ -1,8 +1,8 @@
-.charactersListPage__logo {
+.characters-list-page__logo {
     margin: 26px 0px;
 }
 
-.charactersListPage__list {
+.characters-list-page__list {
     display: flex;
     justify-content: center;
     align-items: center;

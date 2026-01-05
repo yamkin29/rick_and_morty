@@ -1,4 +1,4 @@
-.footer__container {
+.footer {
     display: flex;
     box-shadow: -2px 0px 8px 2px rgba(0, 0, 0, 0.1);
     background: rgba(255, 255, 255, 1);
@@ -6,7 +6,8 @@
     justify-content: center;
 }
 
-.footer__text__container {
+.footer__text {
+    height: 21px;
     color: var(--Pharagraph, rgba(33, 33, 33, 1));
     font-family: Karla;
     font-style: normal;
