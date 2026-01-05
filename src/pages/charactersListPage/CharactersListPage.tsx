@@ -1,6 +1,6 @@
-import SvgIcon from '../../shared/components/utils/SvgIcon';
+import SvgIcon from '@/shared/components/utils/SvgIcon';
 import './CharactersListPage.css';
-import { Loader } from '../../shared/components/loader/Loader.tsx';
+import { Loader } from '@/shared/components/loader/Loader.tsx';
 
 export const CharactersListPage = () => {
   return (

@@ -1,4 +1,4 @@
-import SvgIcon from '../../shared/components/utils/SvgIcon.tsx';
+import SvgIcon from '@/shared/components/utils/SvgIcon.tsx';
 import './CharacterPage.css';
 
 export const CharacterPage = () => {
