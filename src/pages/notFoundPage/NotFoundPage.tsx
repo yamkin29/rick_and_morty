@@ -1,3 +1,11 @@
-export const NotFoundPage = () => {
-  return <h1>sdfsfsd</h1>;
+import './NotFoundPage.css';
+
+const NotFoundPage = () => {
+  return (
+    <div className='not-found-page'>
+      <h1>Page not found</h1>
+    </div>
+  );
 };
+
+export default NotFoundPage;

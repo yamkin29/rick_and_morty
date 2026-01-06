@@ -1,19 +1,18 @@
-import SvgIcon from '@/shared/components/utils/SvgIcon';
 import './CharactersListPage.css';
-import { Loader } from '@/shared/components/loader/Loader.tsx';
+import { Loader } from '@/shared/components';
+import { Main } from '@/assets';
 
-export const CharactersListPage = () => {
+const CharactersListPage = () => {
   return (
     <div className='characters-list-page'>
       <div className='characters-list-page__logo'>
-        <SvgIcon
-          iconName='main'
-          svgProp={{ width: 600, height: 200, fill: 'black' }}
-        />
+        <Main />
       </div>
       <div className='characters-list-page__list'>
-        <Loader size={'large'} />
+        <Loader size='large' />
       </div>
     </div>
   );
 };
+
+export default CharactersListPage;

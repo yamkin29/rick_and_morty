@@ -1,10 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router';
-import { CharactersListPage } from './pages/charactersListPage/CharactersListPage';
-import { CharacterPage } from './pages/characterPage/CharacterPage.tsx';
-import { NotFoundPage } from './pages/notFoundPage/NotFoundPage.tsx';
+import { CharactersListPage, CharacterPage, NotFoundPage } from '@/pages';
 import './App.css';
-import { Header } from './shared/components/header/Header';
-import { Footer } from './shared/components/footer/Footer';
+import { Header, Footer } from '@/shared/components';
 
 function App() {
   return (
