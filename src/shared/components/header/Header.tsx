@@ -1,15 +1,15 @@
 import './Header.css';
-import { Icon, Sun } from '@/assets';
+import { LogoIcon, SunIcon } from '@/assets';
 
 const Header = () => {
   return (
     <>
       <div className='header__logo'>
-        <Icon />
+        <LogoIcon />
       </div>
       <div className='header__actions'>
         <button className='header__button header__button--sun'>
-          <Sun />
+          <SunIcon />
         </button>
         <button className='header__button'>
           <div className='header__button-text'>РУ</div>

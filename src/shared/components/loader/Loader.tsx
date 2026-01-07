@@ -1,5 +1,6 @@
 import './Loader.css';
-import { Loading, LoadingSmall } from '@/assets';
+import { LoadingIcon, LoadingSmallIcon } from '@/assets';
+
 interface ILoaderProps {
   size: 'small' | 'large';
   text?: string;
@@ -9,14 +10,14 @@ const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
   return size === 'large' ? (
     <div className='loader'>
       <div className='loader__logo'>
-        <Loading />
+        <LoadingIcon />
       </div>
       <div className='loader__text'>{text}</div>
     </div>
   ) : (
     <div className='loader'>
       <div className='loader__logo'>
-        <LoadingSmall />
+        <LoadingSmallIcon />
       </div>
     </div>
   );

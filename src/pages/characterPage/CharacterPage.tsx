@@ -1,12 +1,12 @@
 import './CharacterPage.css';
-import { Back } from '@/assets';
+import { BackIcon } from '@/assets';
 
 const CharacterPage = () => {
   return (
     <div className='character-page'>
       <div className='character-page__back-button'>
         <button className='character-page__button'>
-          <Back />
+          <BackIcon />
           <div className='character-page__text'>GO BACK</div>
         </button>
       </div>

@@ -1,12 +1,12 @@
 import './CharactersListPage.css';
 import { Loader } from '@/shared/components';
-import { Main } from '@/assets';
+import { MainIcon } from '@/assets';
 
 const CharactersListPage = () => {
   return (
     <div className='characters-list-page'>
       <div className='characters-list-page__logo'>
-        <Main />
+        <MainIcon />
       </div>
       <div className='characters-list-page__list'>
         <Loader size='large' />
