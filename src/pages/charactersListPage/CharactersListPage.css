@@ -1,0 +1,9 @@
+.characters-list-page__logo {
+    margin: 26px 0px;
+}
+
+.characters-list-page__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
