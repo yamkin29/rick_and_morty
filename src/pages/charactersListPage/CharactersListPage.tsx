@@ -1,6 +1,7 @@
-import './CharactersListPage.css';
-import { Loader } from '@/shared/components';
 import { MainIcon } from '@/assets';
+import { Loader } from '@/shared/components';
+
+import './CharactersListPage.css';
 
 const CharactersListPage = () => {
   return (

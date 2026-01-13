@@ -1,5 +1,6 @@
-import './Loader.css';
 import { LoadingIcon, LoadingSmallIcon } from '@/assets';
+
+import './Loader.css';
 
 interface ILoaderProps {
   size: 'small' | 'large';

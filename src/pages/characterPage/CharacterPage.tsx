@@ -1,5 +1,6 @@
-import './CharacterPage.css';
 import { BackIcon } from '@/assets';
+
+import './CharacterPage.css';
 
 const CharacterPage = () => {
   return (
