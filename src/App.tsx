@@ -1,7 +1,9 @@
-import { Routes, Route, Navigate } from 'react-router';
-import { CharactersListPage, CharacterPage, NotFoundPage } from '@/pages';
+import { Navigate, Route, Routes } from 'react-router';
+
+import { CharacterPage, CharactersListPage, NotFoundPage } from '@/pages';
+import { Footer, Header } from '@/shared/components';
+
 import './App.css';
-import { Header, Footer } from '@/shared/components';
 
 function App() {
   return (

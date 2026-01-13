@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -20,9 +21,26 @@ export default defineConfig([
     ],
     plugins: {
       prettier: prettierPlugin,
+      "simple-import-sort": simpleImportSort,
     },
     rules: {
       'prettier/prettier': 'error',
+      'simple-import-sort/imports': ['error', {
+        groups: [
+          ["^\\u0000"],
+          ["^react$", "^react\\b"],
+          [
+            "^@?\\w.*\\/react\\b",
+            "^@tanstack\\/react-",
+            "^(react-)",
+          ],
+          ["^@?\\w"],
+          ["^@\\/","^src\\/"],
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$", "^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          ["^.+\\.(css|scss|sass|less)$"],
+        ],
+      }],
+      'simple-import-sort/exports': 'error',
     },
     languageOptions: {
       ecmaVersion: 2020,
