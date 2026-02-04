@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { MainIcon } from '@/assets';
 import Select from '@/shared/components/select/Select.tsx';
@@ -12,20 +12,24 @@ const CharactersListPage = () => {
 
   const mockOptions = [
     {
-      label: 'Test1',
-      value: 'test1'
+      label: 'Human',
+      value: 'human'
     },
     {
-      label: 'Test2',
-      value: 'test2'
+      label: 'Alien',
+      value: 'alien'
     },
     {
-      label: 'Test3',
-      value: 'test3'
+      label: 'Humanoid',
+      value: 'humanoid'
     },
     {
-      label: 'Test4',
-      value: 'test4'
+      label: 'Animal',
+      value: 'animal'
+    },
+    {
+      label: 'Robot',
+      value: 'robot'
     }
   ];
 
@@ -36,11 +40,10 @@ const CharactersListPage = () => {
       </div>
       <div className='characters-list-page__list'>
         <Select
-          placeholder='Change options...'
+          placeholder='Species'
           options={mockOptions}
           value={value}
           onChange={handleChange}
-          OptionComponent={({ option }) => <span>{option.value}123</span>}
         />
       </div>
     </div>

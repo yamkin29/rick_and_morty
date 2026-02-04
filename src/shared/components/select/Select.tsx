@@ -1,4 +1,4 @@
-import React, { type ComponentType, useEffect, useRef, useState } from 'react';
+import { type ComponentType, useEffect, useRef, useState } from 'react';
 
 import './Select.css';
 
@@ -32,19 +32,16 @@ const Select = <T,>({
   size = 'medium',
   onChange
 }: ISelectProps<T>) => {
-  const selectedOption = options.find((option) => option.value === value);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
+
+  const selectedOption = options.find((option) => option.value === value);
 
   const handleSelectClick = () => setIsOpen((prevState) => !prevState);
 
   const handleOptionClick = (newValue: T) => {
     onChange(newValue);
     setIsOpen(false);
-  };
-
-  const handleClearClick = () => {
-    onChange(null);
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -59,25 +56,26 @@ const Select = <T,>({
     return () => document.removeEventListener('click', handleOutsideClick);
   }, []);
 
+  const isPlaceholder = !selectedOption;
+
   return (
     <div
-      className='select'
+      className={`select select--${size} ${isOpen ? 'select--open' : ''}`}
       ref={selectRef}
     >
       <button
-        className='select__header'
+        className={`select__header ${isPlaceholder ? 'select__header--placeholder' : ''}`}
         onClick={handleSelectClick}
+        type='button'
       >
-        {selectedOption?.label ? <OptionComponent option={selectedOption} /> : placeholder}
+        <span className='select__value'>
+          {selectedOption ? <OptionComponent option={selectedOption} /> : placeholder}
+        </span>
+        <span
+          className='select__arrow'
+          aria-hidden='true'
+        />
       </button>
-      {selectedOption && (
-        <button
-          className='select__clean'
-          onClick={handleClearClick}
-        >
-          X
-        </button>
-      )}
       {isOpen && (
         <ul className='select__options'>
           {options.map((option) => {
@@ -87,9 +85,7 @@ const Select = <T,>({
                 className='select__option'
                 onClick={() => handleOptionClick(option.value)}
               >
-                {
-                  <OptionComponent option={option} />
-                }
+                <OptionComponent option={option} />
               </li>
             );
           })}
