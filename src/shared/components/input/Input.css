@@ -1,0 +1,110 @@
+.input {
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.input__field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--input-gap, 8px);
+    height: var(--input-height, 56px);
+    padding: 0 var(--input-padding-x, 16px);
+    background: var(--input-bg, #ffffff);
+    border: 1px solid var(--input-border, rgba(0, 0, 0, 0.5));
+    border-radius: var(--input-radius, 8px);
+    box-sizing: border-box;
+}
+
+.input__control {
+    flex: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font: inherit;
+    color: var(--input-text, rgba(0, 0, 0, 0.6));
+    min-width: 0;
+}
+
+.input__control::placeholder {
+    color: var(--input-placeholder, rgba(0, 0, 0, 0.45));
+}
+
+.input__control:disabled {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+.input__icon {
+    width: var(--input-icon-size, 24px);
+    height: var(--input-icon-size, 24px);
+    flex: 0 0 var(--input-icon-size, 24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input__icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.input__button--clear {
+    width: var(--input-icon-size, 24px);
+    height: var(--input-icon-size, 24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+    flex: 0 0 var(--input-icon-size, 24px);
+    cursor: pointer;
+}
+
+.input__button--clear svg {
+    width: 100%;
+    height: 100%;
+}
+
+.input--filter {
+    --input-height: 56px;
+    --input-radius: 8px;
+    --input-border: #393939;
+    --input-bg: #ffffff;
+    --input-text: rgba(0, 0, 0, 0.6);
+    --input-placeholder: rgba(0, 0, 0, 0.4);
+    --input-padding-x: 16px;
+    --input-gap: 8px;
+    --input-icon-size: 24px;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0;
+}
+
+.input--filter .input__field:focus-within {
+    outline: 2px solid rgba(57, 57, 57, 0.35);
+    outline-offset: 2px;
+}
+
+.input--form .input__field {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.input--form .input__control {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0.15px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.87);
+}
+
+.input--form .input__control::placeholder {
+    color: rgba(0, 0, 0, 0.45);
+}
