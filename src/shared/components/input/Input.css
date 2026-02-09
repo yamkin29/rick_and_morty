@@ -96,6 +96,8 @@
     border-radius: 0;
     padding: 0;
     background: transparent;
+    width: 178px;
+    height: 30px;
 }
 
 .input--form .input__control {
@@ -104,6 +106,18 @@
     letter-spacing: 0.15px;
     font-weight: 500;
     color: rgba(0,0,0,0.87);
+}
+
+.input--form .input__button--clear {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    border: 1px solid black;
+}
+
+.input--form .input__button--clear svg {
+    width: 10px;
+    height: 10px;
 }
 
 .input--form .input__control::placeholder {
