@@ -7,7 +7,6 @@ import './Input.css';
 interface IInputProps {
   variant: 'form' | 'filter';
   size?: 'medium' | 'small';
-  label?: string;
   icon?: boolean;
   value: string;
   onChange?: (value: string) => void;
@@ -16,10 +15,9 @@ interface IInputProps {
   onClear?: () => void;
 }
 
-const Input = ({ variant, size, label, icon, value, onChange, disabled, placeholder, onClear }: IInputProps) => {
+const Input = ({ variant, size, icon, value, onChange, disabled, placeholder, onClear }: IInputProps) => {
   const showClear = value.length > 0 && !!onClear;
   const hasIcon = !!icon;
-  const id = React.useId();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(event.target.value);
@@ -31,7 +29,6 @@ const Input = ({ variant, size, label, icon, value, onChange, disabled, placehol
 
   return (
     <div className={`input input--${variant} input--${size ?? 'medium'}`}>
-      {label && <label htmlFor={id}>{label}</label>}
       <div
         className={`input__field${hasIcon ? ' input__field--with-icon' : ''}${showClear ? ' input__field--with-clear' : ''}`}
       >
@@ -42,7 +39,6 @@ const Input = ({ variant, size, label, icon, value, onChange, disabled, placehol
         )}
         <input
           className='input__control'
-          id={id}
           type='text'
           value={value}
           disabled={disabled}

@@ -20,9 +20,10 @@ const CharactersListPage = () => {
           placeholder='Filter by name...'
           value={value}
           onChange={handleChange}
-          variant='form'
+          variant='filter'
           size='medium'
           icon={true}
+          onClear={() => setValue('')}
         />
       </div>
     </div>

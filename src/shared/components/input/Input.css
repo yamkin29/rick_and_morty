@@ -17,6 +17,7 @@
     border: 1px solid var(--input-border, rgba(0, 0, 0, 0.5));
     border-radius: var(--input-radius, 8px);
     box-sizing: border-box;
+    width: 250px;
 }
 
 .input__control {
@@ -38,9 +39,9 @@
 }
 
 .input__icon {
-    width: var(--input-icon-size, 24px);
-    height: var(--input-icon-size, 24px);
-    flex: 0 0 var(--input-icon-size, 24px);
+    width: var(--input-icon-search-size, 24px);
+    height: var(--input-icon-search-size, 24px);
+    flex: 0 0 var(--input-icon-search-size, 24px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,15 +53,15 @@
 }
 
 .input__button--clear {
-    width: var(--input-icon-size, 24px);
-    height: var(--input-icon-size, 24px);
+    width: var(--input-icon-clear-size, 12px);
+    height: var(--input-icon-clear-size, 12px);
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     background: transparent;
     padding: 0;
-    flex: 0 0 var(--input-icon-size, 24px);
+    flex: 0 0 var(--input-icon-clear-size, 12px);
     cursor: pointer;
 }
 
@@ -78,15 +79,15 @@
     --input-placeholder: rgba(0, 0, 0, 0.4);
     --input-padding-x: 16px;
     --input-gap: 8px;
-    --input-icon-size: 24px;
+    --input-icon-search-size: 24px;
+    --input-icon-clear-size: 12px;
     font-size: 16px;
     line-height: 19px;
     letter-spacing: 0;
 }
 
 .input--filter .input__field:focus-within {
-    outline: 2px solid rgba(57, 57, 57, 0.35);
-    outline-offset: 2px;
+    outline: 1px solid rgba(57, 57, 57, 0.35);
 }
 
 .input--form .input__field {
