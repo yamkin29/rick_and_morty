@@ -5,7 +5,7 @@ import { CloseIcon } from '@/assets';
 import './Input.css';
 
 interface IInputProps {
-  variant: 'bordered' | 'underlined';
+  variant?: 'bordered' | 'underlined';
   icon?: React.ReactNode;
   value: string;
   id: string;
@@ -13,7 +13,7 @@ interface IInputProps {
   placeholder?: string;
 }
 
-const Input = ({ variant, icon, value, id, onChange, placeholder }: IInputProps) => {
+const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder }: IInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const showClear = value.length > 0;
 

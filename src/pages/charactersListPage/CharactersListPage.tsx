@@ -21,8 +21,8 @@ const CharactersListPage = () => {
           value={value}
           id='input'
           onChange={handleChange}
-          variant='bordered'
-          icon={<SearchIcon />}
+          variant='underlined'
+          // icon={<SearchIcon />}
         />
       </div>
     </div>

@@ -1,117 +1,124 @@
 .input {
-    font-family: Roboto, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    letter-spacing: 0;
-    color: rgb(0, 0, 0);
+    --input-font-family: Roboto, sans-serif;
+    --input-font-size: 16px;
+    --input-line-height: 1.5;
+    --input-letter-spacing: 0;
+    --input-font-weight: normal;
+
+    --input-width: 250px;
+    --input-height: 56px;
+    --input-padding-x: 16px;
+    --input-gap: 8px;
+    --input-radius: 8px;
+
+    --input-bg: #fff;
+    --input-border-color: #808080;
+    --input-border-width: 1px;
+    --input-text-color: rgba(0, 0, 0);
+    --input-placeholder-color: rgba(0, 0, 0, 0.5);
+
+    --input-icon-size: 24px;
+    --input-clear-size: 12px;
+    --input-clear-icon-size: 100%;
+
+    font-family: var(--input-font-family), sans-serif;
+    font-size: var(--input-font-size);
+    line-height: var(--input-line-height);
+    letter-spacing: var(--input-letter-spacing);
+    color: var(--input-text-color);
+}
+
+.input,
+.input * {
+    box-sizing: border-box;
 }
 
 .input__field {
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--input-gap, 8px);
-    height: var(--input-height, 56px);
-    padding: 0 var(--input-padding-x, 16px);
-    background: var(--input-bg, #ffffff);
-    border: 1px solid var(--input-border);
-    border-radius: var(--input-radius, 8px);
-    box-sizing: border-box;
-    width: 250px;
+    gap: var(--input-gap);
+
+    width: var(--input-width);
+    height: var(--input-height);
+    padding: 0 var(--input-padding-x);
+
+    background: var(--input-bg);
+    border: var(--input-border-width) solid var(--input-border-color);
+    border-radius: var(--input-radius);
 }
 
 .input__control {
     flex: 1;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font: inherit;
-    color: var(--input-text, rgba(0, 0, 0, 0.6));
     min-width: 0;
+
+    border: 0;
+    outline: none;
+    background: transparent;
+
+    font: inherit;
+    color: var(--input-text-color);
 }
 
 .input__control::placeholder {
-    color: var(--input-placeholder, rgba(0, 0, 0, 0.45));
+    color: var(--input-placeholder-color);
+}
+
+.input__icon,
+.input__button--clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input__icon {
-    width: var(--input-icon-search-size, 24px);
-    height: var(--input-icon-search-size, 24px);
-    flex: 0 0 var(--input-icon-search-size, 24px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.input__icon svg {
-    width: 100%;
-    height: 100%;
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+    flex: 0 0 var(--input-icon-size);
 }
 
 .input__button--clear {
-    width: var(--input-icon-clear-size, 12px);
-    height: var(--input-icon-clear-size, 12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
+    width: var(--input-clear-size);
+    height: var(--input-clear-size);
+    flex: 0 0 var(--input-clear-size);
+
+    border: 0;
     background: transparent;
     padding: 0;
-    flex: 0 0 var(--input-icon-clear-size, 12px);
     cursor: pointer;
 }
 
+.input__icon svg,
 .input__button--clear svg {
     width: 100%;
     height: 100%;
 }
 
-.input--bordered {
-    --input-height: 56px;
-    --input-radius: 8px;
-    --input-border: gray;
-    --input-bg: #ffffff;
-    --input-text: rgb(0, 0, 0);
-    --input-placeholder: rgba(0, 0, 0, 0.5);
-    --input-padding-x: 16px;
-    --input-gap: 8px;
-    --input-icon-search-size: 24px;
-    --input-icon-clear-size: 12px;
-    font-size: 16px;
-    line-height: 19px;
-    letter-spacing: 0;
+.input__button--clear svg {
+    width: var(--input-clear-icon-size);
+    height: var(--input-clear-icon-size);
+}
+
+.input--underlined {
+    --input-width: 178px;
+    --input-height: 30px;
+    --input-padding-x: 0;
+    --input-radius: 0;
+
+    --input-font-size: 20px;
+    --input-line-height: 30px;
+    --input-letter-spacing: 0.15px;
+    --input-font-weight: 500;
+
+    --input-clear-size: 20px;
+    --input-clear-icon-size: 10px;
 }
 
 .input--underlined .input__field {
-    border: none;
+    border: 0;
     border-bottom: 1px solid rgb(0, 0, 0);
-    border-radius: 0;
-    padding: 0;
-    background: transparent;
-    width: 178px;
-    height: 30px;
-}
-
-.input--underlined .input__control {
-    font-size: 20px;
-    line-height: 30px;
-    letter-spacing: 0.15px;
-    font-weight: 500;
-    color: rgba(0,0,0,0.87);
 }
 
 .input--underlined .input__button--clear {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
-    border: 1px solid black;
-}
-
-.input--underlined .input__button--clear svg {
-    width: 10px;
-    height: 10px;
-}
-
-.input--underlined .input__control::placeholder {
-    color: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgb(0, 0, 0);
 }
