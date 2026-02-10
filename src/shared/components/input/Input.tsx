@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 
 import { CloseIcon } from '@/assets';
+import { ClassNames } from '@/shared/helpers';
 
 import './Input.css';
 
@@ -11,9 +12,10 @@ interface IInputProps {
   id: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  className?: string;
 }
 
-const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder }: IInputProps) => {
+const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder, className }: IInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const showClear = value.length > 0;
 
@@ -32,7 +34,7 @@ const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder }:
 
   return (
     <div
-      className={`input input--${variant}`}
+      className={ClassNames(`input`, `input--${variant}`, className)}
       onClick={handleOnContainerClick}
     >
       <div className='input__field'>

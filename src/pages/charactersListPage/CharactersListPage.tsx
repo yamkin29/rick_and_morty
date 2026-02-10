@@ -23,6 +23,7 @@ const CharactersListPage = () => {
           onChange={handleChange}
           variant='underlined'
           // icon={<SearchIcon />}
+          className='test'
         />
       </div>
     </div>
