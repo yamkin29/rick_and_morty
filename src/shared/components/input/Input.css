@@ -3,7 +3,7 @@
     font-size: 16px;
     line-height: 1.5;
     letter-spacing: 0;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgb(0, 0, 0);
 }
 
 .input__field {
@@ -14,7 +14,7 @@
     height: var(--input-height, 56px);
     padding: 0 var(--input-padding-x, 16px);
     background: var(--input-bg, #ffffff);
-    border: 1px solid var(--input-border, rgba(0, 0, 0, 0.5));
+    border: 1px solid var(--input-border);
     border-radius: var(--input-radius, 8px);
     box-sizing: border-box;
     width: 250px;
@@ -32,10 +32,6 @@
 
 .input__control::placeholder {
     color: var(--input-placeholder, rgba(0, 0, 0, 0.45));
-}
-
-.input__control:disabled {
-    color: rgba(0, 0, 0, 0.35);
 }
 
 .input__icon {
@@ -70,13 +66,13 @@
     height: 100%;
 }
 
-.input--filter {
+.input--bordered {
     --input-height: 56px;
     --input-radius: 8px;
-    --input-border: #393939;
+    --input-border: gray;
     --input-bg: #ffffff;
-    --input-text: rgba(0, 0, 0, 0.6);
-    --input-placeholder: rgba(0, 0, 0, 0.4);
+    --input-text: rgb(0, 0, 0);
+    --input-placeholder: rgba(0, 0, 0, 0.5);
     --input-padding-x: 16px;
     --input-gap: 8px;
     --input-icon-search-size: 24px;
@@ -86,13 +82,9 @@
     letter-spacing: 0;
 }
 
-.input--filter .input__field:focus-within {
-    outline: 1px solid rgba(57, 57, 57, 0.35);
-}
-
-.input--form .input__field {
+.input--underlined .input__field {
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgb(0, 0, 0);
     border-radius: 0;
     padding: 0;
     background: transparent;
@@ -100,7 +92,7 @@
     height: 30px;
 }
 
-.input--form .input__control {
+.input--underlined .input__control {
     font-size: 20px;
     line-height: 30px;
     letter-spacing: 0.15px;
@@ -108,18 +100,18 @@
     color: rgba(0,0,0,0.87);
 }
 
-.input--form .input__button--clear {
+.input--underlined .input__button--clear {
     width: 20px;
     height: 20px;
     flex: 0 0 20px;
     border: 1px solid black;
 }
 
-.input--form .input__button--clear svg {
+.input--underlined .input__button--clear svg {
     width: 10px;
     height: 10px;
 }
 
-.input--form .input__control::placeholder {
+.input--underlined .input__control::placeholder {
     color: rgba(0, 0, 0, 0.45);
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { MainIcon } from '@/assets';
-import Input from '@/shared/components/input/Input.tsx';
+import { MainIcon, SearchIcon } from '@/assets';
+import { Input } from '@/shared/components';
 
 import './CharactersListPage.css';
 
@@ -19,11 +19,10 @@ const CharactersListPage = () => {
         <Input
           placeholder='Filter by name...'
           value={value}
+          id='input'
           onChange={handleChange}
-          variant='form'
-          size='medium'
-          icon={false}
-          onClear={() => setValue('')}
+          variant='bordered'
+          icon={<SearchIcon />}
         />
       </div>
     </div>

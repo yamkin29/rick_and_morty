@@ -1,49 +1,50 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { CloseIcon, SearchIcon } from '@/assets';
+import { CloseIcon } from '@/assets';
 
 import './Input.css';
 
 interface IInputProps {
-  variant: 'form' | 'filter';
-  size?: 'medium' | 'small';
-  icon?: boolean;
+  variant: 'bordered' | 'underlined';
+  icon?: React.ReactNode;
   value: string;
-  onChange?: (value: string) => void;
-  disabled?: boolean;
+  id: string;
+  onChange: (value: string) => void;
   placeholder?: string;
-  onClear?: () => void;
 }
 
-const Input = ({ variant, size, icon, value, onChange, disabled, placeholder, onClear }: IInputProps) => {
-  const showClear = value.length > 0 && !!onClear;
-  const hasIcon = !!icon;
+const Input = ({ variant, icon, value, id, onChange, placeholder }: IInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const showClear = value.length > 0;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event.target.value);
+  const handleChangeClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
   };
 
-  const handleOnClearClick = () => {
-    onClear?.();
+  const handleOnClearClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onChange('');
+  };
+
+  const handleOnContainerClick = () => {
+    inputRef.current?.focus();
   };
 
   return (
-    <div className={`input input--${variant} input--${size ?? 'medium'}`}>
-      <div
-        className={`input__field${hasIcon ? ' input__field--with-icon' : ''}${showClear ? ' input__field--with-clear' : ''}`}
-      >
-        {hasIcon && (
-          <div className='input__icon'>
-            <SearchIcon />
-          </div>
-        )}
+    <div
+      className={`input input--${variant}`}
+      onClick={handleOnContainerClick}
+    >
+      <div className='input__field'>
+        {icon && <div className='input__icon'>{icon}</div>}
         <input
           className='input__control'
+          ref={inputRef}
           type='text'
           value={value}
-          disabled={disabled}
+          id={id}
           placeholder={placeholder}
-          onChange={handleChange}
+          onChange={handleChangeClick}
         />
         {showClear && (
           <button
