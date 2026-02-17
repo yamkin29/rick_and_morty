@@ -5,7 +5,7 @@ import { Input } from '@/shared/components';
 
 import './CharactersListPage.css';
 
-const CharactersListPage = () => {
+export const CharactersListPage = () => {
   const [value, setValue] = useState<string>('');
 
   const handleChange = (newValue: string) => setValue(newValue);
@@ -29,5 +29,3 @@ const CharactersListPage = () => {
     </div>
   );
 };
-
-export default CharactersListPage;

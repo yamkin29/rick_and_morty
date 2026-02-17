@@ -1,6 +1,6 @@
 export type ClassNamesArg = string | undefined | Record<string, boolean>;
 
-const ClassNames = (...args: ClassNamesArg[]) => {
+export const ClassNames = (...args: ClassNamesArg[]) => {
   const result = [];
 
   for (const arg of args) {
@@ -20,5 +20,3 @@ const ClassNames = (...args: ClassNamesArg[]) => {
 
   return result.join(' ');
 };
-
-export default ClassNames;

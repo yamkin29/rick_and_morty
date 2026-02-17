@@ -15,7 +15,7 @@ interface IInputProps {
   className?: string;
 }
 
-const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder, className }: IInputProps) => {
+export const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder, className }: IInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const showClear = value.length > 0;
 
@@ -62,5 +62,3 @@ const Input = ({ variant = 'bordered', icon, value, id, onChange, placeholder, c
     </div>
   );
 };
-
-export default Input;

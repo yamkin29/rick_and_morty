@@ -24,7 +24,7 @@ const DefaultOptionComponent = <T,>({ option }: IDefaultOptionComponentProps<T>)
   return <span>{option.label}</span>;
 };
 
-const Select = <T,>({
+export const Select = <T,>({
   options,
   placeholder,
   value,
@@ -94,5 +94,3 @@ const Select = <T,>({
     </div>
   );
 };
-
-export default Select;

@@ -2,7 +2,7 @@ import { BackIcon } from '@/assets';
 
 import './CharacterPage.css';
 
-const CharacterPage = () => {
+export const CharacterPage = () => {
   return (
     <div className='character-page'>
       <div className='character-page__back-button'>
@@ -14,5 +14,3 @@ const CharacterPage = () => {
     </div>
   );
 };
-
-export default CharacterPage;

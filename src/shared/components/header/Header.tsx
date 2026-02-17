@@ -2,7 +2,7 @@ import { LogoIcon, SunIcon } from '@/assets';
 
 import './Header.css';
 
-const Header = () => {
+export const Header = () => {
   return (
     <>
       <div className='header__logo'>
@@ -19,5 +19,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;
