@@ -1,37 +1,14 @@
 import { useState } from 'react';
 
-import { MainIcon } from '@/assets';
-import Select from '@/shared/components/select/Select.tsx';
+import { MainIcon, SearchIcon } from '@/assets';
+import { Input } from '@/shared/components';
 
 import './CharactersListPage.css';
 
-const CharactersListPage = () => {
-  const [value, setValue] = useState<string | null>(null);
+export const CharactersListPage = () => {
+  const [value, setValue] = useState<string>('');
 
-  const handleChange = (newValue: string | null) => setValue(newValue);
-
-  const mockOptions = [
-    {
-      label: 'Human',
-      value: 'human'
-    },
-    {
-      label: 'Alien',
-      value: 'alien'
-    },
-    {
-      label: 'Humanoid',
-      value: 'humanoid'
-    },
-    {
-      label: 'Animal',
-      value: 'animal'
-    },
-    {
-      label: 'Robot',
-      value: 'robot'
-    }
-  ];
+  const handleChange = (newValue: string) => setValue(newValue);
 
   return (
     <div className='characters-list-page'>
@@ -39,15 +16,16 @@ const CharactersListPage = () => {
         <MainIcon />
       </div>
       <div className='characters-list-page__list'>
-        <Select
-          placeholder='Species'
-          options={mockOptions}
+        <Input
+          placeholder='Filter by name...'
           value={value}
+          id='input'
           onChange={handleChange}
+          variant='bordered'
+          icon={<SearchIcon />}
+          className='test'
         />
       </div>
     </div>
   );
 };
-
-export default CharactersListPage;

@@ -5,7 +5,7 @@ import { Footer, Header } from '@/shared/components';
 
 import './App.css';
 
-function App() {
+export const App = () => {
   return (
     <div className='app'>
       <div className='app__header'>
@@ -43,6 +43,4 @@ function App() {
       </div>
     </div>
   );
-}
-
-export default App;
+};

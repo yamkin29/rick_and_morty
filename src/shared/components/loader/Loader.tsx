@@ -7,7 +7,7 @@ interface ILoaderProps {
   text?: string;
 }
 
-const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
+export const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
   return size === 'large' ? (
     <div className='loader'>
       <div className='loader__logo'>
@@ -23,5 +23,3 @@ const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
     </div>
   );
 };
-
-export default Loader;
