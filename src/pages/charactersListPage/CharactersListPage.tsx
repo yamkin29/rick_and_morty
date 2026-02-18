@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { MainIcon, SearchIcon } from '@/assets';
-import { Input } from '@/shared/components';
+import { MainIcon } from '@/assets';
+import { TestImageRick } from "@/assets";
 
 import './CharactersListPage.css';
+import {CharacterCardWidget} from "@/widgets";
 
 export const CharactersListPage = () => {
   const [value, setValue] = useState<string>('');
@@ -16,15 +17,7 @@ export const CharactersListPage = () => {
         <MainIcon />
       </div>
       <div className='characters-list-page__list'>
-        <Input
-          placeholder='Filter by name...'
-          value={value}
-          id='input'
-          onChange={handleChange}
-          variant='bordered'
-          icon={<SearchIcon />}
-          className='test'
-        />
+        <CharacterCardWidget mode='view' image={<TestImageRick/>}/>
       </div>
     </div>
   );
