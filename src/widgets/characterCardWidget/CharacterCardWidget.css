@@ -152,7 +152,7 @@
     visibility: visible;
 }
 
-.character-card__edit-container {
+.character-card__edit-actions {
     position: absolute;
     display: flex;
     align-items: center;
@@ -161,7 +161,7 @@
     right: 10px;
 }
 
-.character-card__edit-container__cancel-button {
+.character-card__cancel-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -169,7 +169,7 @@
     height: 24px;
 }
 
-.character-card__edit-container__save-button {
+.character-card__save-button {
     background-color: transparent;
     border: none;
     cursor: pointer;

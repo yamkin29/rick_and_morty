@@ -142,10 +142,10 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
         </button>
       )}
       {mode === 'edit' && (
-        <div className={ClassNames('character-card__edit-container')}>
+        <div className={ClassNames('character-card__edit-actions')}>
           <button
             type='button'
-            className={ClassNames('character-card__edit-container__cancel-button')}
+            className={ClassNames('character-card__cancel-button')}
             onClick={handleCancel}
             aria-label='Cancel changes'
           >
@@ -153,7 +153,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
           </button>
           <button
             type='button'
-            className={ClassNames('character-card__edit-container__save-button')}
+            className={ClassNames('character-card__save-button')}
             onClick={handleSave}
             aria-label='Save changes'
           >
