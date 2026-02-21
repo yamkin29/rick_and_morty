@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { EditModeIcon } from '@/assets';
+import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
 import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets/characterCardWidget/types.ts';
@@ -54,8 +54,12 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
     setLocationValue(newLocationValue);
   };
 
-  const handleChangeModeClick = () => {
+  const handleChangeEditModeClick = () => {
     setMode('edit');
+  };
+
+  const handleChangeViewModeClick = () => {
+    setMode('view');
   };
 
   return (
@@ -124,10 +128,28 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
         <button
           type='button'
           className={ClassNames('character-card__edit-button')}
-          onClick={handleChangeModeClick}
+          onClick={handleChangeEditModeClick}
         >
           <EditModeIcon />
         </button>
+      )}
+      {mode === 'edit' && (
+        <div className={ClassNames('character-card__edit-container')}>
+          <button
+            type='button'
+            className={ClassNames('character-card__edit-container__cancel-button')}
+            onClick={handleChangeViewModeClick}
+          >
+            <CharacterCardCloseIcon />
+          </button>
+          <button
+            type='button'
+            className={ClassNames('character-card__edit-container__save-button')}
+            onClick={handleChangeViewModeClick}
+          >
+            <CharacterCardCheckIcon />
+          </button>
+        </div>
       )}
     </div>
   );

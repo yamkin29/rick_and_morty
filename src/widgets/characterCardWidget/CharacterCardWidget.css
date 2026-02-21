@@ -17,6 +17,12 @@
     height: 234px;
 }
 
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .character-card__content {
     width: 240px;
     height: 234px;
@@ -124,4 +130,29 @@
 
 .character-card:focus-within .character-card__edit-button {
     visibility: visible;
+}
+
+.character-card__edit-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 5px;
+    right: 10px;
+}
+
+.character-card__edit-container__cancel-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
+.character-card__edit-container__save-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
 }

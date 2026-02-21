@@ -1,5 +1,6 @@
 export { default as BackIcon } from './icons/back.svg?react';
-export { default as CheckIcon } from './icons/checkIcon.svg?react';
+export { default as CharacterCardCheckIcon } from './icons/characterCardCheck.svg?react';
+export { default as CharacterCardCloseIcon } from './icons/characterCardClose.svg?react';
 export { default as EditModeIcon } from './icons/editModeIcon.svg?react';
 export { default as LogoIcon } from './icons/icon.svg?react';
 export { default as CloseIcon } from './icons/iconClose.svg?react';
