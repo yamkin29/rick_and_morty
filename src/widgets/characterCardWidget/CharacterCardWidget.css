@@ -70,12 +70,22 @@
     --input-line-height: 21px;
     --input-letter-spacing: 0.25px;
     --input-height: 21px;
-    --input-width: 100px;
+    --input-width: 115px;
 }
 
-.character-card__location .input__button--clear,
 .character-card__title .input__button--clear {
     display: none;
+}
+
+.character-card__location .input__button--clear {
+    border: none;
+    width: 20px;
+    height: 20px;
+}
+
+.character-card__location .input__button--clear svg {
+    width: 7px;
+    height: 7px;
 }
 
 .character-card__status-value {
