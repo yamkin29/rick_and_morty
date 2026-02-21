@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Link } from 'react-router';
+
 import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
@@ -72,7 +74,13 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
       <div className={ClassNames('character-card__content')}>
         <div className={ClassNames('character-card__title')}>
           {mode === 'view' ? (
-            nameValue
+            <Link
+              to={`/characters/${data.id}`}
+              className={ClassNames('character-card__title-link')}
+              aria-label='View Character'
+            >
+              {nameValue}
+            </Link>
           ) : (
             <Input
               value={nameValue}

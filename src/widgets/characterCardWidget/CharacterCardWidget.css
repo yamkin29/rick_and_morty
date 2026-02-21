@@ -39,6 +39,16 @@
     margin-bottom: 10px;
 }
 
+.character-card__title-link {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.character-card__title-link:hover {
+    opacity: 0.85;
+}
+
 .character-card__meta-item {
     display: flex;
     flex-direction: column;
