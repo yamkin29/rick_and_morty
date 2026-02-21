@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
+import { EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
+import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets/characterCardWidget/types.ts';
 
 import './CharacterCardWidget.css';
 
-type StatusVariants = 'alive' | 'dead' | 'unknown';
-type Option = { label: string; value: StatusVariants };
+type Option = {
+  label: string;
+  value: StatusVariants;
+};
 
 interface ICharacterCardWidgetProps {
-  characterId?: string;
-  mode: 'view' | 'edit';
-  image: React.ReactNode;
+  data: CharacterCardData;
 }
 
 const options: Option[] = [
@@ -29,15 +31,16 @@ const StatusOption = ({ option }: { option: Option }) => {
   );
 };
 
-export const CharacterCardWidget = ({ characterId, mode, image }: ICharacterCardWidgetProps) => {
-  const [selectValue, setSelectValue] = useState<StatusVariants | null>('alive');
-  const [nameValue, setNameValue] = useState<string>('Rick Sanchez');
-  const [locationValue, setLocationValue] = useState<string>('Earth');
+export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
+  const [nameValue, setNameValue] = useState<string>(data.name);
+  const [selectValue, setSelectValue] = useState<StatusVariants | null>(data.status);
+  const [locationValue, setLocationValue] = useState<string>(data.location);
+  const [mode, setMode] = useState<CharacterMode>('view');
 
   const currentOption = options.find((option) => option.value === selectValue) ?? options[0];
 
-  const nameInputId = `character-${characterId}-name`;
-  const locationInputId = `character-${characterId}-location`;
+  const nameInputId = `character-${data.id}-name`;
+  const locationInputId = `character-${data.id}-location`;
 
   const handleSelectClick = (newSelectValue: StatusVariants | null) => {
     setSelectValue(newSelectValue);
@@ -51,9 +54,18 @@ export const CharacterCardWidget = ({ characterId, mode, image }: ICharacterCard
     setLocationValue(newLocationValue);
   };
 
+  const handleChangeModeClick = () => {
+    setMode('edit');
+  };
+
   return (
     <div className={ClassNames('character-card', `character-card--${mode}`)}>
-      <div className={ClassNames('character-card__media')}>{image}</div>
+      <div className={ClassNames('character-card__media')}>
+        <img
+          src={data.image}
+          alt={data.name}
+        />
+      </div>
       <div className={ClassNames('character-card__content')}>
         <div className={ClassNames('character-card__title')}>
           {mode === 'view' ? (
@@ -69,11 +81,11 @@ export const CharacterCardWidget = ({ characterId, mode, image }: ICharacterCard
         </div>
         <div className={ClassNames('character-card__meta-item')}>
           <div className={ClassNames('character-card__meta-label')}>Gender</div>
-          <div className={ClassNames('character-card__meta-value')}>Male</div>
+          <div className={ClassNames('character-card__meta-value')}>{data.gender}</div>
         </div>
         <div className={ClassNames('character-card__meta-item')}>
           <div className={ClassNames('character-card__meta-label')}>Species</div>
-          <div className={ClassNames('character-card__meta-value')}>Human</div>
+          <div className={ClassNames('character-card__meta-value')}>{data.species}</div>
         </div>
         <div className={ClassNames('character-card__meta-item')}>
           <div className={ClassNames('character-card__meta-label')}>Location</div>
@@ -108,6 +120,15 @@ export const CharacterCardWidget = ({ characterId, mode, image }: ICharacterCard
           </div>
         </div>
       </div>
+      {mode === 'view' && (
+        <button
+          type='button'
+          className={ClassNames('character-card__edit-button')}
+          onClick={handleChangeModeClick}
+        >
+          <EditModeIcon />
+        </button>
+      )}
     </div>
   );
 };

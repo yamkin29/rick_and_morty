@@ -1,8 +1,18 @@
 import { MainIcon } from '@/assets';
-import { TestImageRick } from '@/assets';
 import { CharacterCardWidget } from '@/widgets';
+import type { CharacterCardData } from '@/widgets/characterCardWidget/types.ts';
 
 import './CharactersListPage.css';
+
+const character: CharacterCardData = {
+  id: '1',
+  name: 'Rick Sanchez',
+  status: 'alive',
+  species: 'Human',
+  gender: 'Male',
+  location: 'Earth',
+  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
+};
 
 export const CharactersListPage = () => {
   return (
@@ -11,10 +21,7 @@ export const CharactersListPage = () => {
         <MainIcon />
       </div>
       <div className='characters-list-page__list'>
-        <CharacterCardWidget
-          mode='edit'
-          image={<TestImageRick />}
-        />
+        <CharacterCardWidget data={character} />
       </div>
     </div>
   );

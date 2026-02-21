@@ -9,6 +9,7 @@
     justify-content: center;
     background-color: white;
     gap: 13px;
+    position: relative;
 }
 
 .character-card__media {
@@ -103,4 +104,24 @@
 
 .character-card__status-dot--unknown {
     background-color: orange;
+}
+
+.character-card__edit-button {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    top: 5px;
+    right: 10px;
+    visibility: hidden;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.character-card:hover .character-card__edit-button {
+    visibility: visible;
+}
+
+.character-card:focus-within .character-card__edit-button {
+    visibility: visible;
 }
