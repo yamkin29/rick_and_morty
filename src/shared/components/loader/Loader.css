@@ -9,7 +9,7 @@
 
 .loader__text {
     margin-top: -16px;
-    color: var(--Pharagraph, rgba(33, 33, 33, 1));
+    color: rgba(33, 33, 33, 1);
     font-family: Karla, sans-serif;
     font-style: normal;
     font-size: 18px;

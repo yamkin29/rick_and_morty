@@ -1,10 +1,4 @@
-:root {
-  --Pharagraph: #212121;
-}
-
-body {
-  margin: 0;
-}
+@import './reset.css';
 
 @font-face {
   font-family: 'Karla';
