@@ -7,7 +7,7 @@ import { Input, Select } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
 import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets/characterCardWidget/types.ts';
 
-import './CharacterCardWidget.css';
+import './CharacterCardWidget.scss';
 
 type Option = {
   label: string;

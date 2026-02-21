@@ -17,10 +17,12 @@
     height: 234px;
 }
 
-.character-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.character-card__media {
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .character-card__content {
@@ -83,19 +85,25 @@
     --input-width: 115px;
 }
 
-.character-card__title .input__button--clear {
-    display: none;
+.character-card__title {
+    .input__button--clear {
+        display: none;
+    }
 }
 
-.character-card__location .input__button--clear {
-    border: none;
-    width: 20px;
-    height: 20px;
+.character-card__location {
+    .input__button--clear {
+        border: none;
+        width: 20px;
+        height: 20px;
+    }
 }
 
-.character-card__location .input__button--clear svg {
-    width: 7px;
-    height: 7px;
+.character-card__location {
+    .input__button--clear svg {
+        width: 7px;
+        height: 7px;
+    }
 }
 
 .character-card__status-value {
@@ -144,12 +152,16 @@
     cursor: pointer;
 }
 
-.character-card:hover .character-card__edit-button {
-    visibility: visible;
+.character-card:hover {
+    .character-card__edit-button {
+        visibility: visible;
+    }
 }
 
-.character-card:focus-within .character-card__edit-button {
-    visibility: visible;
+.character-card:focus-within {
+    .character-card__edit-button {
+        visibility: visible;
+    }
 }
 
 .character-card__edit-actions {
