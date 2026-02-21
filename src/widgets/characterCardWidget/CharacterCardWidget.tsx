@@ -14,6 +14,7 @@ type Option = {
 
 interface ICharacterCardWidgetProps {
   data: CharacterCardData;
+  onSave?: (data: CharacterCardData) => void;
 }
 
 const options: Option[] = [
@@ -42,23 +43,21 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
   const nameInputId = `character-${data.id}-name`;
   const locationInputId = `character-${data.id}-location`;
 
-  const handleSelectClick = (newSelectValue: StatusVariants | null) => {
-    setSelectValue(newSelectValue);
-  };
-
-  const handleInputNameClick = (newNameValue: string) => {
-    setNameValue(newNameValue);
-  };
-
-  const handleSelectLocationClick = (newLocationValue: string) => {
-    setLocationValue(newLocationValue);
-  };
-
-  const handleChangeEditModeClick = () => {
+  const handleEdit = () => {
+    setNameValue(data.name);
+    setSelectValue(data.status);
+    setLocationValue(data.location);
     setMode('edit');
   };
 
-  const handleChangeViewModeClick = () => {
+  const handleCancel = () => {
+    setNameValue(data.name);
+    setSelectValue(data.status);
+    setLocationValue(data.location);
+    setMode('view');
+  };
+
+  const handleSave = () => {
     setMode('view');
   };
 
@@ -78,7 +77,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
             <Input
               value={nameValue}
               id={nameInputId}
-              onChange={handleInputNameClick}
+              onChange={setNameValue}
               variant='underlined'
             />
           )}
@@ -100,7 +99,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
               <Input
                 value={locationValue}
                 id={locationInputId}
-                onChange={handleSelectLocationClick}
+                onChange={setLocationValue}
                 variant='underlined'
                 className={ClassNames('character-card__location')}
               />
@@ -116,7 +115,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
               <Select
                 options={options}
                 value={selectValue}
-                onChange={handleSelectClick}
+                onChange={setSelectValue}
                 size='small'
                 OptionComponent={StatusOption}
               />
@@ -128,7 +127,8 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
         <button
           type='button'
           className={ClassNames('character-card__edit-button')}
-          onClick={handleChangeEditModeClick}
+          onClick={handleEdit}
+          aria-label='Edit Character'
         >
           <EditModeIcon />
         </button>
@@ -138,14 +138,16 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
           <button
             type='button'
             className={ClassNames('character-card__edit-container__cancel-button')}
-            onClick={handleChangeViewModeClick}
+            onClick={handleCancel}
+            aria-label='Cancel changes'
           >
             <CharacterCardCloseIcon />
           </button>
           <button
             type='button'
             className={ClassNames('character-card__edit-container__save-button')}
-            onClick={handleChangeViewModeClick}
+            onClick={handleSave}
+            aria-label='Save changes'
           >
             <CharacterCardCheckIcon />
           </button>
