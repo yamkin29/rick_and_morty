@@ -23,19 +23,19 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-}
 
-.header__button--sun {
-    margin: 0 15px 0 0;
-}
+    &--sun {
+        margin: 0 15px 0 0;
+    }
 
-.header__button-text {
-    color: rgba(0, 0, 0, 0.6);
-    font-family: Roboto, sans-serif;
-    font-style: normal;
-    font-size: 25px;
-    font-weight: 400;
-    line-height: 21px;
-    letter-spacing: 0.25px;
-    text-align: left;
+    &--text {
+        color: rgba(0, 0, 0, 0.6);
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+        font-size: 25px;
+        font-weight: 400;
+        line-height: 21px;
+        letter-spacing: 0.25px;
+        text-align: left;
+    }
 }

@@ -1,6 +1,6 @@
 import { LogoIcon, SunIcon } from '@/assets';
 
-import './Header.css';
+import './Header.scss';
 
 export const Header = () => {
   return (
