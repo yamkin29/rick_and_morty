@@ -1,6 +1,6 @@
 import { type ComponentType, useEffect, useRef, useState } from 'react';
 
-import './Select.css';
+import './Select.scss';
 
 interface IOption<T> {
   label: string;
