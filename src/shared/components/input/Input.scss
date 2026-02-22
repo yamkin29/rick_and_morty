@@ -1,24 +1,21 @@
 $input-underlined-border-color: rgb(0 0 0);
 
 .input {
-    --input-font-family: Roboto, sans-serif;
+    --input-font-family: roboto, sans-serif;
     --input-font-size: 16px;
     --input-line-height: 1.5;
     --input-letter-spacing: 0;
     --input-font-weight: normal;
-
     --input-width: 250px;
     --input-height: 56px;
     --input-padding-x: 16px;
     --input-gap: 8px;
     --input-radius: 8px;
-
     --input-bg: #fff;
     --input-border-color: #808080;
     --input-border-width: 1px;
-    --input-text-color: rgba(0, 0, 0, 1);
-    --input-placeholder-color: rgba(0, 0, 0, 0.5);
-
+    --input-text-color: rgb(0 0 0 / 100%);
+    --input-placeholder-color: rgb(0 0 0 / 50%);
     --input-icon-size: 24px;
     --input-clear-size: 12px;
     --input-clear-icon-size: 100%;
@@ -39,11 +36,9 @@ $input-underlined-border-color: rgb(0 0 0);
         display: flex;
         align-items: center;
         gap: var(--input-gap);
-
         width: var(--input-width);
         height: var(--input-height);
         padding: 0 var(--input-padding-x);
-
         background: var(--input-bg);
         border: var(--input-border-width) solid var(--input-border-color);
         border-radius: var(--input-radius);
@@ -52,11 +47,9 @@ $input-underlined-border-color: rgb(0 0 0);
     &__control {
         flex: 1;
         min-width: 0;
-
         border: 0;
         outline: none;
         background: transparent;
-
         font: inherit;
         color: var(--input-text-color);
 
@@ -82,7 +75,6 @@ $input-underlined-border-color: rgb(0 0 0);
         width: var(--input-clear-size);
         height: var(--input-clear-size);
         flex: 0 0 var(--input-clear-size);
-
         border: 0;
         background: transparent;
         padding: 0;
@@ -104,12 +96,10 @@ $input-underlined-border-color: rgb(0 0 0);
         --input-height: 30px;
         --input-padding-x: 0;
         --input-radius: 0;
-
         --input-font-size: 20px;
         --input-line-height: 30px;
         --input-letter-spacing: 0.15px;
         --input-font-weight: 500;
-
         --input-clear-size: 20px;
         --input-clear-icon-size: 10px;
 

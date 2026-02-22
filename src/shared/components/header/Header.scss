@@ -16,9 +16,9 @@
 .header__button {
     width: 38px;
     height: 38px;
-    border: 1px solid rgba(57, 57, 57, 1);
+    border: 1px solid rgb(57 57 57 / 100%);
     border-radius: 8px;
-    background: rgba(255, 255, 255, 1);
+    background: rgb(255 255 255 / 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,7 +29,7 @@
     }
 
     &--text {
-        color: rgba(0, 0, 0, 0.6);
+        color: rgb(0 0 0 / 60%);
         font-family: Roboto, sans-serif;
         font-style: normal;
         font-size: 25px;

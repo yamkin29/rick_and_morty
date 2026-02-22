@@ -2,7 +2,7 @@ import { MainIcon } from '@/assets';
 import { CharacterCardWidget } from '@/widgets';
 import type { CharacterCardData } from '@/widgets/characterCardWidget/types.ts';
 
-import './CharactersListPage.css';
+import './CharactersListPage.scss';
 
 const character: CharacterCardData = {
   id: '1',

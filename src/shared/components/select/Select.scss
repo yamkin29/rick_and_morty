@@ -1,9 +1,9 @@
-$select-arrow-color: rgba(0, 0, 0, 0.55);
+$select-arrow-color: rgb(0 0 0 / 55%);
 
 .select {
   --select-border: #393939;
   --select-bg: #fff;
-  --select-text: rgba(0, 0, 0, 0.6);
+  --select-text: rgb(0 0 0 / 60%);
   --select-radius: 6px;
   --select-gap: 8px;
 
@@ -66,15 +66,15 @@ $select-arrow-color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.02);
+      background: rgb(0 0 0 / 2%);
     }
 
     &:active {
-      background: rgba(0, 0, 0, 0.04);
+      background: rgb(0 0 0 / 4%);
     }
 
     &:focus-visible {
-      outline: 2px solid rgba(57, 57, 57, 0.35);
+      outline: 2px solid rgb(57 57 57 / 35%);
       outline-offset: 2px;
     }
 
@@ -142,11 +142,11 @@ $select-arrow-color: rgba(0, 0, 0, 0.55);
     color: var(--select-text);
 
     &:hover {
-      background: rgba(0, 0, 0, 0.04);
+      background: rgb(0 0 0 / 4%);
     }
 
     &:active {
-      background: rgba(0, 0, 0, 0.08);
+      background: rgb(0 0 0 / 8%);
     }
   }
 }
