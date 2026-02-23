@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router';
 import { CharacterPage, CharactersListPage, NotFoundPage } from '@/pages';
 import { Footer, Header } from '@/shared/components';
 
-import './App.css';
+import './App.scss';
 
 export const App = () => {
   return (

@@ -1,13 +1,7 @@
-:root {
-  --Pharagraph: #212121;
-}
-
-body {
-  margin: 0;
-}
+@use 'normalize';
 
 @font-face {
-  font-family: 'Karla';
+  font-family: Karla;
   src: url('./assets/fonts/Karla-VariableFont_wght.ttf') format('truetype');
   font-weight: 400 700;
   font-style: normal;
@@ -15,7 +9,7 @@ body {
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
   src: url('./assets/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
   font-weight: 400 700;
   font-style: normal;

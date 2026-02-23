@@ -1,30 +1,29 @@
-import { useState } from 'react';
+import { MainIcon } from '@/assets';
+import { CharacterCardWidget } from '@/widgets';
+import type { CharacterCardData } from '@/widgets/characterCardWidget/types.ts';
 
-import { MainIcon, SearchIcon } from '@/assets';
-import { Input } from '@/shared/components';
+import './CharactersListPage.scss';
 
-import './CharactersListPage.css';
+const character: CharacterCardData = {
+  id: '1',
+  name: 'Rick Sanchez',
+  status: 'alive',
+  species: 'Human',
+  gender: 'Male',
+  location: 'Earth',
+  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
+};
 
 export const CharactersListPage = () => {
-  const [value, setValue] = useState<string>('');
-
-  const handleChange = (newValue: string) => setValue(newValue);
-
   return (
     <div className='characters-list-page'>
-      <div className='characters-list-page__logo'>
-        <MainIcon />
-      </div>
+      <img
+        src={MainIcon}
+        alt='Rick and Morty'
+        className='characters-list-page__logo'
+      />
       <div className='characters-list-page__list'>
-        <Input
-          placeholder='Filter by name...'
-          value={value}
-          id='input'
-          onChange={handleChange}
-          variant='bordered'
-          icon={<SearchIcon />}
-          className='test'
-        />
+        <CharacterCardWidget data={character} />
       </div>
     </div>
   );

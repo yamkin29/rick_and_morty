@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { CloseIcon } from '@/assets';
 import { ClassNames } from '@/shared/helpers';
 
-import './Input.css';
+import './Input.scss';
 
 interface IInputProps {
   variant?: 'bordered' | 'underlined';

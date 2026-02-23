@@ -1,6 +1,8 @@
 import { type ComponentType, useEffect, useRef, useState } from 'react';
 
-import './Select.css';
+import { ClassNames } from '@/shared/helpers';
+
+import './Select.scss';
 
 interface IOption<T> {
   label: string;
@@ -60,11 +62,11 @@ export const Select = <T,>({
 
   return (
     <div
-      className={`select select--${size} ${isOpen ? 'select--open' : ''}`}
+      className={ClassNames('select', `select--${size}`, { 'select--open': isOpen })}
       ref={selectRef}
     >
       <button
-        className={`select__header ${isPlaceholder ? 'select__header--placeholder' : ''}`}
+        className={ClassNames('select__header', { 'select__header--placeholder': isPlaceholder })}
         onClick={handleSelectClick}
         type='button'
       >
