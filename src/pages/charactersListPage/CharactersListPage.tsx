@@ -17,9 +17,11 @@ const character: CharacterCardData = {
 export const CharactersListPage = () => {
   return (
     <div className='characters-list-page'>
-      <div className='characters-list-page__logo'>
-        <MainIcon />
-      </div>
+      <img
+        src={MainIcon}
+        alt='Rick and Morty'
+        className='characters-list-page__logo'
+      />
       <div className='characters-list-page__list'>
         <CharacterCardWidget data={character} />
       </div>

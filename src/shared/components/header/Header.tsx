@@ -1,4 +1,5 @@
 import { LogoIcon, SunIcon } from '@/assets';
+import { ClassNames } from '@/shared/helpers';
 
 import './Header.scss';
 
@@ -9,7 +10,7 @@ export const Header = () => {
         <LogoIcon />
       </div>
       <div className='header__actions'>
-        <button className='header__button header__button--sun'>
+        <button className={ClassNames('header__button', 'header__button--sun')}>
           <SunIcon />
         </button>
         <button className='header__button'>

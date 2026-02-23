@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
-import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets/characterCardWidget/types.ts';
+import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets';
 
 import './CharacterCardWidget.scss';
 
@@ -28,7 +28,7 @@ const options: Option[] = [
 const StatusOption = ({ option }: { option: Option }) => {
   return (
     <div className={ClassNames('character-card__status-option')}>
-      <div>{option.label}</div>
+      {option.label}
       <div className={ClassNames('character-card__status-dot', `character-card__status-dot--${option.value}`)}></div>
     </div>
   );
@@ -65,18 +65,18 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
 
   return (
     <div className={ClassNames('character-card', `character-card--${mode}`)}>
-      <div className={ClassNames('character-card__media')}>
+      <div className='character-card__media'>
         <img
           src={data.image}
           alt={data.name}
         />
       </div>
-      <div className={ClassNames('character-card__content')}>
-        <div className={ClassNames('character-card__title')}>
+      <div className='character-card__content'>
+        <div className='character-card__title'>
           {mode === 'view' ? (
             <Link
               to={`/characters/${data.id}`}
-              className={ClassNames('character-card__title-link')}
+              className='character-card__title-link'
               aria-label='View Character'
             >
               {nameValue}
@@ -90,17 +90,17 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
             />
           )}
         </div>
-        <div className={ClassNames('character-card__meta-item')}>
-          <div className={ClassNames('character-card__meta-label')}>Gender</div>
-          <div className={ClassNames('character-card__meta-value')}>{data.gender}</div>
+        <div className='character-card__meta-item'>
+          <div className='character-card__meta-label'>Gender</div>
+          <div className='character-card__meta-value'>{data.gender}</div>
         </div>
-        <div className={ClassNames('character-card__meta-item')}>
-          <div className={ClassNames('character-card__meta-label')}>Species</div>
-          <div className={ClassNames('character-card__meta-value')}>{data.species}</div>
+        <div className='character-card__meta-item'>
+          <div className='character-card__meta-label'>Species</div>
+          <div className='character-card__meta-value'>{data.species}</div>
         </div>
-        <div className={ClassNames('character-card__meta-item')}>
-          <div className={ClassNames('character-card__meta-label')}>Location</div>
-          <div className={ClassNames('character-card__meta-value')}>
+        <div className='character-card__meta-item'>
+          <div className='character-card__meta-label'>Location</div>
+          <div className='character-card__meta-value'>
             {mode === 'view' ? (
               locationValue
             ) : (
@@ -109,14 +109,14 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
                 id={locationInputId}
                 onChange={setLocationValue}
                 variant='underlined'
-                className={ClassNames('character-card__location')}
+                className='character-card__location'
               />
             )}
           </div>
         </div>
-        <div className={ClassNames('character-card__status')}>
-          <div className={ClassNames('character-card__meta-label')}>Status</div>
-          <div className={ClassNames('character-card__status-value')}>
+        <div className='character-card__status'>
+          <div className='character-card__meta-label'>Status</div>
+          <div className='character-card__status-value'>
             {mode === 'view' ? (
               <StatusOption option={currentOption} />
             ) : (
@@ -134,7 +134,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
       {mode === 'view' && (
         <button
           type='button'
-          className={ClassNames('character-card__edit-button')}
+          className='character-card__edit-button'
           onClick={handleEdit}
           aria-label='Edit Character'
         >
@@ -142,10 +142,10 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
         </button>
       )}
       {mode === 'edit' && (
-        <div className={ClassNames('character-card__edit-actions')}>
+        <div className='character-card__edit-actions'>
           <button
             type='button'
-            className={ClassNames('character-card__cancel-button')}
+            className='character-card__cancel-button'
             onClick={handleCancel}
             aria-label='Cancel changes'
           >
@@ -153,7 +153,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
           </button>
           <button
             type='button'
-            className={ClassNames('character-card__save-button')}
+            className='character-card__save-button'
             onClick={handleSave}
             aria-label='Save changes'
           >
