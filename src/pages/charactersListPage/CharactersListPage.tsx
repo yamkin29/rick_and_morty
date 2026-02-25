@@ -1,20 +1,19 @@
+import { useState } from 'react';
+
 import { MainIcon } from '@/assets';
-import { CharacterCardWidget } from '@/widgets';
-import type { CharacterCardData } from '@/widgets/characterCardWidget/types.ts';
+import { FilterPanelWidget } from '@/widgets';
+import type { CharacterFilters } from '@/widgets/filterPanelWidget';
 
 import './CharactersListPage.scss';
 
-const character: CharacterCardData = {
-  id: '1',
-  name: 'Rick Sanchez',
-  status: 'alive',
-  species: 'Human',
-  gender: 'Male',
-  location: 'Earth',
-  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
-};
-
 export const CharactersListPage = () => {
+  const [filterValues, setFilterValues] = useState<CharacterFilters>({
+    name: '',
+    status: '',
+    species: '',
+    gender: ''
+  });
+
   return (
     <div className='characters-list-page'>
       <img
@@ -23,7 +22,10 @@ export const CharactersListPage = () => {
         className='characters-list-page__logo'
       />
       <div className='characters-list-page__list'>
-        <CharacterCardWidget data={character} />
+        <FilterPanelWidget
+          values={filterValues}
+          onChange={setFilterValues}
+        />
       </div>
     </div>
   );

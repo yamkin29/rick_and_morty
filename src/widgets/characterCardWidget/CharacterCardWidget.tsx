@@ -4,28 +4,19 @@ import { Link } from 'react-router';
 
 import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
+import { STATUS_OPTIONS, type StatusOption } from '@/shared/constans';
 import { ClassNames } from '@/shared/helpers';
-import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets';
+import type { StatusVariants } from '@/shared/types';
+import type { CharacterCardData, CharacterMode } from '@/widgets/characterCardWidget/types.ts';
 
 import './CharacterCardWidget.scss';
-
-type Option = {
-  label: string;
-  value: StatusVariants;
-};
 
 interface ICharacterCardWidgetProps {
   data: CharacterCardData;
   onSave?: (data: CharacterCardData) => void;
 }
 
-const options: Option[] = [
-  { label: 'Alive', value: 'alive' },
-  { label: 'Dead', value: 'dead' },
-  { label: 'Unknown', value: 'unknown' }
-];
-
-const StatusOption = ({ option }: { option: Option }) => {
+const StatusOption = ({ option }: { option: StatusOption }) => {
   return (
     <div className={ClassNames('character-card__status-option')}>
       {option.label}
@@ -40,7 +31,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
   const [locationValue, setLocationValue] = useState<string>(data.location);
   const [mode, setMode] = useState<CharacterMode>('view');
 
-  const currentOption = options.find((option) => option.value === selectValue) ?? options[0];
+  const currentOption = STATUS_OPTIONS.find((option) => option.value === selectValue) ?? STATUS_OPTIONS[0];
 
   const nameInputId = `character-${data.id}-name`;
   const locationInputId = `character-${data.id}-location`;
@@ -121,7 +112,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
               <StatusOption option={currentOption} />
             ) : (
               <Select
-                options={options}
+                options={STATUS_OPTIONS}
                 value={selectValue}
                 onChange={setSelectValue}
                 size='small'
