@@ -1,4 +1,4 @@
-export type StatusVariants = 'alive' | 'dead' | 'unknown';
+import type { StatusVariants } from '@/shared/types/statusVariants.ts';
 
 export type CharacterMode = 'view' | 'edit';
 
