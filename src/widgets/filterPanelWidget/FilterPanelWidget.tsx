@@ -2,8 +2,8 @@ import { useId } from 'react';
 
 import { SearchIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
-import { GENDER_FILTER_OPTIONS, SPECIES_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '@/shared/constans';
-import type { CharacterFilters } from '@/widgets/filterPanelWidget/types.ts';
+import { GENDER_FILTER_OPTIONS, SPECIES_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '@/shared/constants';
+import type { CharacterFilters } from '@/widgets/filterPanelWidget';
 
 import './FilterPanelWidget.scss';
 
@@ -33,21 +33,21 @@ export const FilterPanelWidget = ({ values, onChange }: IFilterPanelWidgetProps)
         placeholder='Species'
         options={SPECIES_FILTER_OPTIONS}
         value={values.species}
-        onChange={(value) => handleChange('species', value ?? '')}
+        onChange={(value) => handleChange('species', value ?? undefined)}
         className='filter-panel__select'
       ></Select>
       <Select
         placeholder='Gender'
         options={GENDER_FILTER_OPTIONS}
         value={values.gender}
-        onChange={(value) => handleChange('gender', value ?? '')}
+        onChange={(value) => handleChange('gender', value ?? undefined)}
         className='filter-panel__select'
       ></Select>
       <Select
         placeholder='Status'
         options={STATUS_FILTER_OPTIONS}
         value={values.status}
-        onChange={(value) => handleChange('status', value ?? '')}
+        onChange={(value) => handleChange('status', value ?? undefined)}
         className='filter-panel__select'
       ></Select>
     </div>

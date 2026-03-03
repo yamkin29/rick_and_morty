@@ -1,8 +1,8 @@
-import type { GenderFilter, SpeciesFilter, StatusFilter } from '@/shared/constans';
+import type { GenderVariants, SpeciesVariants, StatusVariants } from '@/shared/types/characterVariants.ts';
 
 export type CharacterFilters = {
   name: string;
-  species: SpeciesFilter | '';
-  gender: GenderFilter | '';
-  status: StatusFilter | '';
+  species?: SpeciesVariants;
+  gender?: GenderVariants;
+  status?: StatusVariants;
 };

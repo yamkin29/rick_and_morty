@@ -1,4 +1,4 @@
-import type { StatusVariants } from '@/shared/types/statusVariants.ts';
+import type { StatusVariants } from '@/shared/types/characterVariants.ts';
 
 export type CharacterMode = 'view' | 'edit';
 

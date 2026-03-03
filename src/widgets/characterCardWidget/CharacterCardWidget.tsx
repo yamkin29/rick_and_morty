@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 
 import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
-import { STATUS_OPTIONS, type StatusOption } from '@/shared/constans';
+import { type FilterOption, STATUS_FILTER_OPTIONS } from '@/shared/constants';
 import { ClassNames } from '@/shared/helpers';
 import type { StatusVariants } from '@/shared/types';
-import type { CharacterCardData, CharacterMode } from '@/widgets/characterCardWidget/types.ts';
+import type { CharacterCardData, CharacterMode } from '@/widgets/characterCardWidget';
 
 import './CharacterCardWidget.scss';
 
@@ -16,7 +16,7 @@ interface ICharacterCardWidgetProps {
   onSave?: (data: CharacterCardData) => void;
 }
 
-const StatusOption = ({ option }: { option: StatusOption }) => {
+const StatusOption = ({ option }: { option: FilterOption<string> }) => {
   return (
     <div className={ClassNames('character-card__status-option')}>
       {option.label}
@@ -31,7 +31,7 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
   const [locationValue, setLocationValue] = useState<string>(data.location);
   const [mode, setMode] = useState<CharacterMode>('view');
 
-  const currentOption = STATUS_OPTIONS.find((option) => option.value === selectValue) ?? STATUS_OPTIONS[0];
+  const currentOption = STATUS_FILTER_OPTIONS.find((option) => option.value === selectValue);
 
   const nameInputId = `character-${data.id}-name`;
   const locationInputId = `character-${data.id}-location`;
@@ -109,10 +109,14 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
           <div className='character-card__meta-label'>Status</div>
           <div className='character-card__status-value'>
             {mode === 'view' ? (
-              <StatusOption option={currentOption} />
+              currentOption ? (
+                <StatusOption option={currentOption} />
+              ) : (
+                <span>–</span>
+              )
             ) : (
               <Select
-                options={STATUS_OPTIONS}
+                options={STATUS_FILTER_OPTIONS}
                 value={selectValue}
                 onChange={setSelectValue}
                 size='small'
