@@ -3,20 +3,21 @@ import { useId } from 'react';
 import { SearchIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
 import { GENDER_FILTER_OPTIONS, SPECIES_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '@/shared/constants';
-import type { CharacterFilters } from '@/widgets/filterPanelWidget';
+import type { CharacterFilters } from '@/widgets/filterPanel';
 
-import './FilterPanelWidget.scss';
+import './FilterPanel.scss';
 
 interface IFilterPanelWidgetProps {
   values: CharacterFilters;
   onChange: (values: CharacterFilters) => void;
 }
 
-export const FilterPanelWidget = ({ values, onChange }: IFilterPanelWidgetProps) => {
+export const FilterPanel = ({ values, onChange }: IFilterPanelWidgetProps) => {
   const nameInputId = useId();
 
-  const handleChange = <K extends keyof CharacterFilters>(key: K, value: CharacterFilters[K]) => {
-    onChange({ ...values, [key]: value });
+  const handleChange = <K extends keyof CharacterFilters>(key: K, value: CharacterFilters[K] | null) => {
+    const normalizedValue = (value ?? undefined) as CharacterFilters[K];
+    onChange({ ...values, [key]: normalizedValue });
   };
 
   return (
@@ -33,21 +34,21 @@ export const FilterPanelWidget = ({ values, onChange }: IFilterPanelWidgetProps)
         placeholder='Species'
         options={SPECIES_FILTER_OPTIONS}
         value={values.species}
-        onChange={(value) => handleChange('species', value ?? undefined)}
+        onChange={(value) => handleChange('species', value)}
         className='filter-panel__select'
       ></Select>
       <Select
         placeholder='Gender'
         options={GENDER_FILTER_OPTIONS}
         value={values.gender}
-        onChange={(value) => handleChange('gender', value ?? undefined)}
+        onChange={(value) => handleChange('gender', value)}
         className='filter-panel__select'
       ></Select>
       <Select
         placeholder='Status'
         options={STATUS_FILTER_OPTIONS}
         value={values.status}
-        onChange={(value) => handleChange('status', value ?? undefined)}
+        onChange={(value) => handleChange('status', value)}
         className='filter-panel__select'
       ></Select>
     </div>

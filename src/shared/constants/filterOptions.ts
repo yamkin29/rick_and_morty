@@ -1,4 +1,4 @@
-import type { GenderVariants, SpeciesVariants, StatusVariants } from '@/shared/types/characterVariants';
+import type { GenderVariants, SpeciesVariants, StatusVariants } from '@/shared/types';
 
 export type FilterOption<T> = {
   value: T;

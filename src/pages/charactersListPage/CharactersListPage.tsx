@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import { MainIcon } from '@/assets';
-import { CharacterCardWidget, FilterPanelWidget } from '@/widgets';
-import type { CharacterCardData } from '@/widgets/characterCardWidget';
-import type { CharacterFilters } from '@/widgets/filterPanelWidget';
+import { CharacterCard, FilterPanel } from '@/widgets';
+import type { CharacterCardData } from '@/widgets/characterCard';
+import type { CharacterFilters } from '@/widgets/filterPanel';
 
 import './CharactersListPage.scss';
 
@@ -30,11 +30,11 @@ export const CharactersListPage = () => {
         className='characters-list-page__logo'
       />
       <div className='characters-list-page__list'>
-        <FilterPanelWidget
+        <FilterPanel
           values={filterValues}
           onChange={setFilterValues}
         />
-        <CharacterCardWidget data={character} />
+        <CharacterCard data={character} />
       </div>
     </div>
   );

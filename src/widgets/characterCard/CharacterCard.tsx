@@ -7,9 +7,9 @@ import { Input, Select } from '@/shared/components';
 import { type FilterOption, STATUS_FILTER_OPTIONS } from '@/shared/constants';
 import { ClassNames } from '@/shared/helpers';
 import type { StatusVariants } from '@/shared/types';
-import type { CharacterCardData, CharacterMode } from '@/widgets/characterCardWidget';
+import type { CharacterCardData, CharacterMode } from '@/widgets/characterCard';
 
-import './CharacterCardWidget.scss';
+import './CharacterCard.scss';
 
 interface ICharacterCardWidgetProps {
   data: CharacterCardData;
@@ -25,7 +25,7 @@ const StatusOption = ({ option }: { option: FilterOption<string> }) => {
   );
 };
 
-export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
+export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
   const [nameValue, setNameValue] = useState<string>(data.name);
   const [selectValue, setSelectValue] = useState<StatusVariants | null>(data.status);
   const [locationValue, setLocationValue] = useState<string>(data.location);

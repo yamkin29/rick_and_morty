@@ -1,4 +1,4 @@
-import type { GenderVariants, SpeciesVariants, StatusVariants } from '@/shared/types/characterVariants.ts';
+import type { GenderVariants, SpeciesVariants, StatusVariants } from '@/shared/types';
 
 export type CharacterFilters = {
   name: string;
