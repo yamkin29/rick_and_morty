@@ -1,2 +1,2 @@
-export * from './characterCardWidget/CharacterCardWidget.tsx';
-export type { CharacterCardData, CharacterMode, StatusVariants } from './characterCardWidget/types';
+export * from '@/widgets/characterCard/CharacterCard.tsx';
+export * from '@/widgets/filterPanel/FilterPanel.tsx';

@@ -4,28 +4,19 @@ import { Link } from 'react-router';
 
 import { CharacterCardCheckIcon, CharacterCardCloseIcon, EditModeIcon } from '@/assets';
 import { Input, Select } from '@/shared/components';
+import { type FilterOption, STATUS_FILTER_OPTIONS } from '@/shared/constants';
 import { ClassNames } from '@/shared/helpers';
-import type { CharacterCardData, CharacterMode, StatusVariants } from '@/widgets';
+import type { StatusVariants } from '@/shared/types';
+import type { CharacterCardData, CharacterMode } from '@/widgets/characterCard';
 
-import './CharacterCardWidget.scss';
-
-type Option = {
-  label: string;
-  value: StatusVariants;
-};
+import './CharacterCard.scss';
 
 interface ICharacterCardWidgetProps {
   data: CharacterCardData;
   onSave?: (data: CharacterCardData) => void;
 }
 
-const options: Option[] = [
-  { label: 'Alive', value: 'alive' },
-  { label: 'Dead', value: 'dead' },
-  { label: 'Unknown', value: 'unknown' }
-];
-
-const StatusOption = ({ option }: { option: Option }) => {
+const StatusOption = ({ option }: { option: FilterOption<string> }) => {
   return (
     <div className={ClassNames('character-card__status-option')}>
       {option.label}
@@ -34,13 +25,13 @@ const StatusOption = ({ option }: { option: Option }) => {
   );
 };
 
-export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
+export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
   const [nameValue, setNameValue] = useState<string>(data.name);
   const [selectValue, setSelectValue] = useState<StatusVariants | null>(data.status);
   const [locationValue, setLocationValue] = useState<string>(data.location);
   const [mode, setMode] = useState<CharacterMode>('view');
 
-  const currentOption = options.find((option) => option.value === selectValue) ?? options[0];
+  const currentOption = STATUS_FILTER_OPTIONS.find((option) => option.value === selectValue);
 
   const nameInputId = `character-${data.id}-name`;
   const locationInputId = `character-${data.id}-location`;
@@ -118,10 +109,14 @@ export const CharacterCardWidget = ({ data }: ICharacterCardWidgetProps) => {
           <div className='character-card__meta-label'>Status</div>
           <div className='character-card__status-value'>
             {mode === 'view' ? (
-              <StatusOption option={currentOption} />
+              currentOption ? (
+                <StatusOption option={currentOption} />
+              ) : (
+                <span>–</span>
+              )
             ) : (
               <Select
-                options={options}
+                options={STATUS_FILTER_OPTIONS}
                 value={selectValue}
                 onChange={setSelectValue}
                 size='small'

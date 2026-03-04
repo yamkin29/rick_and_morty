@@ -20,6 +20,7 @@ interface ISelectProps<T> {
   OptionComponent?: ComponentType<IDefaultOptionComponentProps<T>>;
   size?: 'medium' | 'small';
   onChange: (value: T | null) => void;
+  className?: string;
 }
 
 const DefaultOptionComponent = <T,>({ option }: IDefaultOptionComponentProps<T>) => {
@@ -32,7 +33,8 @@ export const Select = <T,>({
   value,
   OptionComponent = DefaultOptionComponent,
   size = 'medium',
-  onChange
+  onChange,
+  className
 }: ISelectProps<T>) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -62,7 +64,7 @@ export const Select = <T,>({
 
   return (
     <div
-      className={ClassNames('select', `select--${size}`, { 'select--open': isOpen })}
+      className={ClassNames('select', `select--${size}`, { 'select--open': isOpen }, className)}
       ref={selectRef}
     >
       <button
