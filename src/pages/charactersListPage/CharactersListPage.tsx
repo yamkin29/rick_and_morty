@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { toast } from 'react-hot-toast';
+
+import { api } from '@/api';
 import { MainIcon } from '@/assets';
+import { characterAdapter, type IApiCharacter } from '@/pages/charactersListPage/characterListPage.adapter';
+import { Loader } from '@/shared/components';
 import { CharacterCard, FilterPanel } from '@/widgets';
 import type { CharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
@@ -8,19 +13,33 @@ import type { CharacterFilters } from '@/widgets/filterPanel';
 import './CharactersListPage.scss';
 
 export const CharactersListPage = () => {
+  const [characters, setCharacters] = useState<CharacterCardData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [filterValues, setFilterValues] = useState<CharacterFilters>({
     name: ''
   });
 
-  const character: CharacterCardData = {
-    id: '1',
-    name: 'Rick Sanchez',
-    status: 'alive',
-    species: 'Human',
-    gender: 'Male',
-    location: 'Earth',
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
-  };
+  useEffect(() => {
+    const getCharacters = async () => {
+      setIsLoading(true);
+
+      try {
+        const result = await api.get(`/character`);
+
+        const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
+          return characterAdapter(item);
+        });
+        setCharacters(characters);
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'Something went wrong.';
+        toast.error(message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getCharacters();
+  }, []);
 
   return (
     <div className='characters-list-page'>
@@ -29,13 +48,22 @@ export const CharactersListPage = () => {
         alt='Rick and Morty'
         className='characters-list-page__logo'
       />
-      <div className='characters-list-page__list'>
-        <FilterPanel
-          values={filterValues}
-          onChange={setFilterValues}
-        />
-        <CharacterCard data={character} />
-      </div>
+      <FilterPanel
+        values={filterValues}
+        onChange={setFilterValues}
+      />
+      {isLoading ? (
+        <Loader size='large' />
+      ) : (
+        <div className='characters-list-page__grid'>
+          {characters.map((character: CharacterCardData) => (
+            <CharacterCard
+              key={character.id}
+              data={character}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
