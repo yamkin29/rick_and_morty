@@ -5,6 +5,7 @@
     justify-content: center;
     gap: 0;
     width: 100%;
+    margin-bottom: 20px;
 
     &__text {
         margin-top: -16px;
@@ -19,7 +20,7 @@
     }
 
     &__logo {
-        svg {
+        img {
             animation: portal-spin 6s linear infinite;
             transform-origin: center;
         }

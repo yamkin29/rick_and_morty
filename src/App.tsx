@@ -2,12 +2,14 @@ import { Navigate, Route, Routes } from 'react-router';
 
 import { CharacterPage, CharactersListPage, NotFoundPage } from '@/pages';
 import { Footer, Header } from '@/shared/components';
+import { AppToaster } from '@/shared/components/appToaster';
 
 import './App.scss';
 
 export const App = () => {
   return (
     <div className='app'>
+      <AppToaster />
       <div className='app__header'>
         <Header />
       </div>

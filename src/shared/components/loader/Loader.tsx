@@ -11,14 +11,20 @@ export const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) =
   return size === 'large' ? (
     <div className='loader'>
       <div className='loader__logo'>
-        <LoadingIcon />
+        <img
+          src={LoadingIcon}
+          alt='Loading characters...'
+        />
       </div>
       <div className='loader__text'>{text}</div>
     </div>
   ) : (
     <div className='loader'>
       <div className='loader__logo'>
-        <LoadingSmallIcon />
+        <img
+          src={LoadingSmallIcon}
+          alt='Loading characters...'
+        />
       </div>
     </div>
   );
