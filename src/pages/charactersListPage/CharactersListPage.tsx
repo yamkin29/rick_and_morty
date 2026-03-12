@@ -4,11 +4,12 @@ import { toast } from 'react-hot-toast';
 
 import { api } from '@/api';
 import { MainIcon } from '@/assets';
-import { characterAdapter, type IApiCharacter } from '@/pages/charactersListPage/characterListPage.adapter';
 import { Loader } from '@/shared/components';
 import { CharacterCard, FilterPanel } from '@/widgets';
 import type { CharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
+
+import { characterAdapter, type IApiCharacter } from './characterListPage.adapter';
 
 import './CharactersListPage.scss';
 
