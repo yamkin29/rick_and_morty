@@ -25,7 +25,14 @@ export const CharactersListPage = () => {
       setIsLoading(true);
 
       try {
-        const result = await api.get(`/character`);
+        const result = await api.get(`/character`, {
+          params: {
+            name: filterValues.name,
+            species: filterValues.species,
+            gender: filterValues.gender,
+            status: filterValues.status
+          }
+        });
 
         const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
           return characterAdapter(item);
@@ -40,7 +47,7 @@ export const CharactersListPage = () => {
     };
 
     getCharacters();
-  }, []);
+  }, [filterValues]);
 
   return (
     <div className='characters-list-page'>
