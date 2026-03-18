@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router';
 
 import { CharacterPage, CharactersListPage, NotFoundPage } from '@/pages';
 import { Footer, Header } from '@/shared/components';
+import { ErrorBoundary } from '@/shared/components';
 import { AppToaster } from '@/shared/components/appToaster';
 
 import './App.scss';
@@ -14,31 +15,33 @@ export const App = () => {
         <Header />
       </div>
       <div className='app__content'>
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <Navigate
-                to='/characters'
-                replace
-              />
-            }
-          />
+        <ErrorBoundary>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <Navigate
+                  to='/characters'
+                  replace
+                />
+              }
+            />
 
-          <Route
-            path='/characters'
-            element={<CharactersListPage />}
-          />
-          <Route
-            path='/characters/:id'
-            element={<CharacterPage />}
-          />
+            <Route
+              path='/characters'
+              element={<CharactersListPage />}
+            />
+            <Route
+              path='/characters/:id'
+              element={<CharacterPage />}
+            />
 
-          <Route
-            path='*'
-            element={<NotFoundPage />}
-          />
-        </Routes>
+            <Route
+              path='*'
+              element={<NotFoundPage />}
+            />
+          </Routes>
+        </ErrorBoundary>
       </div>
       <div className='app__footer'>
         <Footer />

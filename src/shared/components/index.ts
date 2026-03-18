@@ -1,3 +1,4 @@
+export * from './errorBoundary/ErrorBoundary.tsx';
 export * from './footer/Footer.tsx';
 export * from './header/Header.tsx';
 export * from './input/Input.tsx';

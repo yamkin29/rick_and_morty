@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
 
+import axios from 'axios';
+
 import { api } from '@/api';
 import { MainIcon } from '@/assets';
 import { Loader } from '@/shared/components';
@@ -21,26 +23,50 @@ export const CharactersListPage = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const getCharacters = async () => {
       setIsLoading(true);
 
       try {
-        const result = await api.get(`/character`);
+        const result = await api.get(`/character`, {
+          signal: controller.signal,
+          params: {
+            name: filterValues.name,
+            species: filterValues.species,
+            gender: filterValues.gender,
+            status: filterValues.status
+          }
+        });
+
+        if (controller.signal.aborted) {
+          return;
+        }
 
         const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
           return characterAdapter(item);
         });
         setCharacters(characters);
       } catch (e: unknown) {
+        if (axios.isCancel(e)) {
+          return;
+        }
+
         const message = e instanceof Error ? e.message : 'Something went wrong.';
         toast.error(message);
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
 
-    getCharacters();
-  }, []);
+    void getCharacters();
+
+    return () => {
+      controller.abort();
+    };
+  }, [filterValues]);
 
   return (
     <div className='characters-list-page'>
