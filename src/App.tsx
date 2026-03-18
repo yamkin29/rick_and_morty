@@ -2,8 +2,8 @@ import { Navigate, Route, Routes } from 'react-router';
 
 import { CharacterPage, CharactersListPage, NotFoundPage } from '@/pages';
 import { Footer, Header } from '@/shared/components';
+import { ErrorBoundary } from '@/shared/components';
 import { AppToaster } from '@/shared/components/appToaster';
-import { ErrorBoundary } from '@/shared/components/errorBoundary/ErrorBoundary';
 
 import './App.scss';
 
