@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
 
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { api } from '@/api';
 import { MainIcon } from '@/assets';
 import { Loader } from '@/shared/components';
+import { InfinityScroll } from '@/shared/components';
 import { CharacterCard, FilterPanel } from '@/widgets';
 import type { CharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
@@ -15,18 +16,34 @@ import { characterAdapter, type IApiCharacter } from './characterListPage.adapte
 
 import './CharactersListPage.scss';
 
+type loadMode = 'initial' | 'loadMore';
+
 export const CharactersListPage = () => {
   const [characters, setCharacters] = useState<CharacterCardData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [filterValues, setFilterValues] = useState<CharacterFilters>({
     name: ''
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
+  const controllerRef = useRef<AbortController | null>(null);
 
-    const getCharacters = async () => {
-      setIsLoading(true);
+  const getCharacters = useCallback(
+    async (pageToLoad: number, mode: loadMode) => {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
+
+      const controller = new AbortController();
+      controllerRef.current = controller;
+
+      if (mode === 'initial') {
+        setIsInitialLoading(true);
+      } else {
+        setIsLoadingMore(true);
+      }
 
       try {
         const result = await api.get(`/character`, {
@@ -35,7 +52,8 @@ export const CharactersListPage = () => {
             name: filterValues.name,
             species: filterValues.species,
             gender: filterValues.gender,
-            status: filterValues.status
+            status: filterValues.status,
+            page: pageToLoad
           }
         });
 
@@ -43,10 +61,20 @@ export const CharactersListPage = () => {
           return;
         }
 
+        const hasMore = result.data.info.next !== null;
+        setHasMore(hasMore);
+
         const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
           return characterAdapter(item);
         });
-        setCharacters(characters);
+
+        if (mode === 'initial') {
+          setCharacters(characters);
+        } else {
+          setCharacters((prevState) => [...prevState, ...characters]);
+        }
+
+        setPage(pageToLoad);
       } catch (e: unknown) {
         if (axios.isCancel(e)) {
           return;
@@ -56,17 +84,34 @@ export const CharactersListPage = () => {
         toast.error(message);
       } finally {
         if (!controller.signal.aborted) {
-          setIsLoading(false);
+          if (mode === 'initial') {
+            setIsInitialLoading(false);
+          } else {
+            setIsLoadingMore(false);
+          }
         }
       }
-    };
+    },
+    [filterValues]
+  );
 
-    void getCharacters();
+  const handleLoadMore = () => {
+    if (isInitialLoading || isLoadingMore || !hasMore) {
+      return;
+    }
+
+    void getCharacters(page + 1, 'loadMore');
+  };
+
+  useEffect(() => {
+    void getCharacters(1, 'initial');
 
     return () => {
-      controller.abort();
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
     };
-  }, [filterValues]);
+  }, [getCharacters]);
 
   return (
     <div className='characters-list-page'>
@@ -79,7 +124,7 @@ export const CharactersListPage = () => {
         values={filterValues}
         onChange={setFilterValues}
       />
-      {isLoading ? (
+      {isInitialLoading ? (
         <Loader size='large' />
       ) : (
         <div className='characters-list-page__grid'>
@@ -91,6 +136,12 @@ export const CharactersListPage = () => {
           ))}
         </div>
       )}
+      <InfinityScroll
+        hasMore={hasMore}
+        loader={<Loader size='small' />}
+        isLoadingMore={isLoadingMore}
+        onLoadMore={handleLoadMore}
+      />
     </div>
   );
 };
