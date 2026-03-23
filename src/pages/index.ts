@@ -1,3 +1,3 @@
-export * from './characterPage/CharacterPage.tsx';
-export * from './charactersListPage/CharactersListPage.tsx';
-export * from './notFoundPage/NotFoundPage.tsx';
+export * from './characterPage/CharacterPage';
+export * from './charactersListPage/CharactersListPage';
+export * from './notFoundPage/NotFoundPage';

@@ -1,1 +1,2 @@
-export * from './ClassNames.ts';
+export * from './CharacterAdapter';
+export * from './ClassNames';

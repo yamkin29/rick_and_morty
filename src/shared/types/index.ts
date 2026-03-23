@@ -1,1 +1,1 @@
-export type { GenderVariants, SpeciesVariants, StatusVariants } from './characterVariants.ts';
+export type { GenderVariants, SpeciesVariants, StatusVariants } from './characterVariants';

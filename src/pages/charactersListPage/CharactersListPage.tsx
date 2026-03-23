@@ -8,18 +8,19 @@ import { api } from '@/api';
 import { MainIcon } from '@/assets';
 import { Loader } from '@/shared/components';
 import { InfinityScroll } from '@/shared/components';
+import { ClassNames } from '@/shared/helpers';
 import { CharacterCard, FilterPanel } from '@/widgets';
-import type { CharacterCardData } from '@/widgets/characterCard';
+import type { ICharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
 
-import { characterAdapter, type IApiCharacter } from './characterListPage.adapter';
+import { CharacterAdapter, type IApiCharacterDetails } from '@/shared/helpers';
 
 import './CharactersListPage.scss';
 
 type loadMode = 'initial' | 'loadMore';
 
 export const CharactersListPage = () => {
-  const [characters, setCharacters] = useState<CharacterCardData[]>([]);
+  const [characters, setCharacters] = useState<ICharacterCardData[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(false);
@@ -64,8 +65,8 @@ export const CharactersListPage = () => {
         const hasMore = result.data.info.next !== null;
         setHasMore(hasMore);
 
-        const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
-          return characterAdapter(item);
+        const characters: ICharacterCardData[] = result.data.results.map((item: IApiCharacterDetails) => {
+          return CharacterAdapter(item);
         });
 
         if (mode === 'initial') {
@@ -77,6 +78,16 @@ export const CharactersListPage = () => {
         setPage(pageToLoad);
       } catch (e: unknown) {
         if (axios.isCancel(e)) {
+          return;
+        }
+
+        if (axios.isAxiosError(e) && e.response?.status === 404) {
+          if (mode === 'initial') {
+            setCharacters([]);
+            setHasMore(false);
+            setPage(1);
+          }
+
           return;
         }
 
@@ -103,6 +114,18 @@ export const CharactersListPage = () => {
     void getCharacters(page + 1, 'loadMore');
   };
 
+  const handleCharacterSave = useCallback((updatedCharacter: ICharacterCardData) => {
+    setCharacters((prevState) => {
+      return prevState.map((character) => {
+        if (character.id !== updatedCharacter.id) {
+          return character;
+        }
+
+        return updatedCharacter;
+      });
+    });
+  }, []);
+
   useEffect(() => {
     void getCharacters(1, 'initial');
 
@@ -124,24 +147,35 @@ export const CharactersListPage = () => {
         values={filterValues}
         onChange={setFilterValues}
       />
-      {isInitialLoading ? (
-        <Loader size='large' />
-      ) : (
-        <div className='characters-list-page__grid'>
-          {characters.map((character: CharacterCardData) => (
-            <CharacterCard
-              key={character.id}
-              data={character}
+      <div
+        className={ClassNames('characters-list-page__results', {
+          'characters-list-page__results--empty': !isInitialLoading && characters.length === 0
+        })}
+      >
+        {isInitialLoading ? (
+          <Loader size='large' />
+        ) : characters.length === 0 ? (
+          <div className='characters-list-page__empty-state'>Character list is empty...</div>
+        ) : (
+          <>
+            <div className='characters-list-page__grid'>
+              {characters.map((character: ICharacterCardData) => (
+                <CharacterCard
+                  key={character.id}
+                  data={character}
+                  onSave={handleCharacterSave}
+                />
+              ))}
+            </div>
+            <InfinityScroll
+              hasMore={hasMore}
+              loader={<Loader size='small' />}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={handleLoadMore}
             />
-          ))}
-        </div>
-      )}
-      <InfinityScroll
-        hasMore={hasMore}
-        loader={<Loader size='small' />}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={handleLoadMore}
-      />
+          </>
+        )}
+      </div>
     </div>
   );
 };
