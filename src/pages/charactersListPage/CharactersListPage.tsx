@@ -114,6 +114,18 @@ export const CharactersListPage = () => {
     void getCharacters(page + 1, 'loadMore');
   };
 
+  const handleCharacterSave = useCallback((updatedCharacter: CharacterCardData) => {
+    setCharacters((prevState) => {
+      return prevState.map((character) => {
+        if (character.id !== updatedCharacter.id) {
+          return character;
+        }
+
+        return updatedCharacter;
+      });
+    });
+  }, []);
+
   useEffect(() => {
     void getCharacters(1, 'initial');
 
@@ -151,6 +163,7 @@ export const CharactersListPage = () => {
                 <CharacterCard
                   key={character.id}
                   data={character}
+                  onSave={handleCharacterSave}
                 />
               ))}
             </div>
