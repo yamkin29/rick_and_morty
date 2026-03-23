@@ -1,1 +1,1 @@
-export type { CharacterCardData, CharacterMode } from './types';
+export type { CharacterMode, ICharacterCardData } from './types';

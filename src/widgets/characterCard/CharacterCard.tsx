@@ -7,13 +7,13 @@ import { Input, Select } from '@/shared/components';
 import { type FilterOption, STATUS_FILTER_OPTIONS } from '@/shared/constants';
 import { ClassNames } from '@/shared/helpers';
 import type { StatusVariants } from '@/shared/types';
-import type { CharacterCardData, CharacterMode } from '@/widgets/characterCard';
+import type { CharacterMode, ICharacterCardData } from '@/widgets/characterCard';
 
 import './CharacterCard.scss';
 
 interface ICharacterCardWidgetProps {
-  data: CharacterCardData;
-  onSave?: (data: CharacterCardData) => void;
+  data: ICharacterCardData;
+  onSave?: (data: ICharacterCardData) => void;
 }
 
 const StatusOption = ({ option }: { option: FilterOption<string> }) => {

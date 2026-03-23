@@ -10,17 +10,17 @@ import { Loader } from '@/shared/components';
 import { InfinityScroll } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
 import { CharacterCard, FilterPanel } from '@/widgets';
-import type { CharacterCardData } from '@/widgets/characterCard';
+import type { ICharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
 
-import { characterAdapter, type IApiCharacter } from './characterListPage.adapter';
+import { CharacterAdapter, type IApiCharacterDetails } from '@/shared/helpers';
 
 import './CharactersListPage.scss';
 
 type loadMode = 'initial' | 'loadMore';
 
 export const CharactersListPage = () => {
-  const [characters, setCharacters] = useState<CharacterCardData[]>([]);
+  const [characters, setCharacters] = useState<ICharacterCardData[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(false);
@@ -65,8 +65,8 @@ export const CharactersListPage = () => {
         const hasMore = result.data.info.next !== null;
         setHasMore(hasMore);
 
-        const characters: CharacterCardData[] = result.data.results.map((item: IApiCharacter) => {
-          return characterAdapter(item);
+        const characters: ICharacterCardData[] = result.data.results.map((item: IApiCharacterDetails) => {
+          return CharacterAdapter(item);
         });
 
         if (mode === 'initial') {
@@ -114,7 +114,7 @@ export const CharactersListPage = () => {
     void getCharacters(page + 1, 'loadMore');
   };
 
-  const handleCharacterSave = useCallback((updatedCharacter: CharacterCardData) => {
+  const handleCharacterSave = useCallback((updatedCharacter: ICharacterCardData) => {
     setCharacters((prevState) => {
       return prevState.map((character) => {
         if (character.id !== updatedCharacter.id) {
@@ -159,7 +159,7 @@ export const CharactersListPage = () => {
         ) : (
           <>
             <div className='characters-list-page__grid'>
-              {characters.map((character: CharacterCardData) => (
+              {characters.map((character: ICharacterCardData) => (
                 <CharacterCard
                   key={character.id}
                   data={character}
