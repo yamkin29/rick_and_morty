@@ -8,6 +8,7 @@ import { api } from '@/api';
 import { MainIcon } from '@/assets';
 import { Loader } from '@/shared/components';
 import { InfinityScroll } from '@/shared/components';
+import { ClassNames } from '@/shared/helpers';
 import { CharacterCard, FilterPanel } from '@/widgets';
 import type { CharacterCardData } from '@/widgets/characterCard';
 import type { CharacterFilters } from '@/widgets/filterPanel';
@@ -80,6 +81,16 @@ export const CharactersListPage = () => {
           return;
         }
 
+        if (axios.isAxiosError(e) && e.response?.status === 404) {
+          if (mode === 'initial') {
+            setCharacters([]);
+            setHasMore(false);
+            setPage(1);
+          }
+
+          return;
+        }
+
         const message = e instanceof Error ? e.message : 'Something went wrong.';
         toast.error(message);
       } finally {
@@ -124,24 +135,34 @@ export const CharactersListPage = () => {
         values={filterValues}
         onChange={setFilterValues}
       />
-      {isInitialLoading ? (
-        <Loader size='large' />
-      ) : (
-        <div className='characters-list-page__grid'>
-          {characters.map((character: CharacterCardData) => (
-            <CharacterCard
-              key={character.id}
-              data={character}
+      <div
+        className={ClassNames('characters-list-page__results', {
+          'characters-list-page__results--empty': !isInitialLoading && characters.length === 0
+        })}
+      >
+        {isInitialLoading ? (
+          <Loader size='large' />
+        ) : characters.length === 0 ? (
+          <div className='characters-list-page__empty-state'>Character list is empty...</div>
+        ) : (
+          <>
+            <div className='characters-list-page__grid'>
+              {characters.map((character: CharacterCardData) => (
+                <CharacterCard
+                  key={character.id}
+                  data={character}
+                />
+              ))}
+            </div>
+            <InfinityScroll
+              hasMore={hasMore}
+              loader={<Loader size='small' />}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={handleLoadMore}
             />
-          ))}
-        </div>
-      )}
-      <InfinityScroll
-        hasMore={hasMore}
-        loader={<Loader size='small' />}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={handleLoadMore}
-      />
+          </>
+        )}
+      </div>
     </div>
   );
 };
