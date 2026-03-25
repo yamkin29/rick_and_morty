@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 import { api } from '@/api';
-import { CharacterAdapter, type IApiCharacterDetails } from '@/shared/helpers';
+import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import type { ICharacterData } from '@/shared/types';
 import type { CharacterFilters } from '@/widgets/filterPanel';
 
@@ -71,7 +71,7 @@ export const useCharacters = () => {
           return;
         }
 
-        if (axios.isAxiosError(e) && e.response?.status === 404) {
+        if (IsNotFoundError(e)) {
           if (mode === 'initial') {
             setCharacters([]);
             setHasMore(false);
