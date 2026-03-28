@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import { Link } from 'react-router';
 
@@ -7,13 +7,14 @@ import { Input, Select } from '@/shared/components';
 import { type FilterOption, STATUS_FILTER_OPTIONS } from '@/shared/constants';
 import { ClassNames } from '@/shared/helpers';
 import type { StatusVariants } from '@/shared/types';
-import type { CharacterCardData, CharacterMode } from '@/widgets/characterCard';
+import type { ICharacterData } from '@/shared/types';
+import type { CharacterMode } from '@/widgets/characterCard';
 
 import './CharacterCard.scss';
 
 interface ICharacterCardWidgetProps {
-  data: CharacterCardData;
-  onSave?: (data: CharacterCardData) => void;
+  data: ICharacterData;
+  onSave?: (data: ICharacterData) => void;
 }
 
 const StatusOption = ({ option }: { option: FilterOption<string> }) => {
@@ -25,13 +26,14 @@ const StatusOption = ({ option }: { option: FilterOption<string> }) => {
   );
 };
 
-export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
+export const CharacterCard = memo(({ data, onSave }: ICharacterCardWidgetProps) => {
   const [nameValue, setNameValue] = useState<string>(data.name);
   const [selectValue, setSelectValue] = useState<StatusVariants | null>(data.status);
   const [locationValue, setLocationValue] = useState<string>(data.location);
   const [mode, setMode] = useState<CharacterMode>('view');
 
-  const currentOption = STATUS_FILTER_OPTIONS.find((option) => option.value === selectValue);
+  const currentStatus = mode === 'view' ? data.status : selectValue;
+  const currentOption = STATUS_FILTER_OPTIONS.find((option) => option.value === currentStatus);
 
   const nameInputId = `character-${data.id}-name`;
   const locationInputId = `character-${data.id}-location`;
@@ -51,6 +53,12 @@ export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
   };
 
   const handleSave = () => {
+    onSave?.({
+      ...data,
+      name: nameValue,
+      location: locationValue,
+      status: selectValue ?? data.status
+    });
     setMode('view');
   };
 
@@ -70,7 +78,7 @@ export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
               className='character-card__title-link'
               aria-label='View Character'
             >
-              {nameValue}
+              {data.name}
             </Link>
           ) : (
             <Input
@@ -93,7 +101,7 @@ export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
           <div className='character-card__meta-label'>Location</div>
           <div className='character-card__meta-value'>
             {mode === 'view' ? (
-              locationValue
+              data.location
             ) : (
               <Input
                 value={locationValue}
@@ -158,4 +166,4 @@ export const CharacterCard = ({ data }: ICharacterCardWidgetProps) => {
       )}
     </div>
   );
-};
+});

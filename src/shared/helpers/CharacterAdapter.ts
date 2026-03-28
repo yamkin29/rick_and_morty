@@ -1,13 +1,15 @@
 import type { StatusVariants } from '@/shared/types';
-import type { CharacterCardData } from '@/widgets/characterCard';
+import type { ICharacterData } from '@/shared/types';
 
-export interface IApiCharacter {
+export interface IApiCharacterDetails {
   id: number;
   name: string;
   image: string;
   gender: string;
   species: string;
   status: string;
+  type: string;
+  origin: { name: string };
   location: { name: string };
 }
 
@@ -20,14 +22,16 @@ const normalizeStatus = (value: string): StatusVariants => {
   return 'unknown';
 };
 
-export const characterAdapter = (item: IApiCharacter): CharacterCardData => {
+export const CharacterAdapter = (item: IApiCharacterDetails): ICharacterData => {
   return {
     id: String(item.id),
+    image: item.image,
     name: item.name,
+    gender: item.gender,
     status: normalizeStatus(item.status),
     species: item.species,
-    gender: item.gender,
-    location: item.location.name,
-    image: item.image
+    type: item.type || 'Unknown',
+    origin: item.origin.name,
+    location: item.location.name
   };
 };

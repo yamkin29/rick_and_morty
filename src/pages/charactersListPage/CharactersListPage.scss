@@ -1,4 +1,6 @@
 .characters-list-page {
+    width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,9 +10,31 @@
     margin: 26px 0;
 }
 
+.characters-list-page__results {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.characters-list-page__results--empty {
+    justify-content: center;
+}
+
 .characters-list-page__grid {
     margin: 20px 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+}
+
+.characters-list-page__empty-state {
+    color: rgb(33 33 33 / 100%);
+    font-family: Karla, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0;
 }

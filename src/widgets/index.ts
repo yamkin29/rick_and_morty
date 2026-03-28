@@ -1,2 +1,2 @@
-export * from '@/widgets/characterCard/CharacterCard.tsx';
-export * from '@/widgets/filterPanel/FilterPanel.tsx';
+export * from '@/widgets/characterCard/CharacterCard';
+export * from '@/widgets/filterPanel/FilterPanel';
