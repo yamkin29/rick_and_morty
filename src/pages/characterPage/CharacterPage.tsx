@@ -7,6 +7,8 @@ import { Capitalize } from '@/shared/helpers';
 
 import './CharacterPage.scss';
 
+const characterInfoKeys = ['gender', 'status', 'species', 'origin', 'type', 'location'] as const;
+
 export const CharacterPage = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -37,8 +39,6 @@ export const CharacterPage = () => {
       </div>
     );
   }
-
-  const characterInfoKeys = ['gender', 'status', 'species', 'origin', 'type', 'location'] as const;
 
   return (
     <div className='character-page'>
