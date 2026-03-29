@@ -56,9 +56,13 @@
     }
 
     &__title-link {
+        display: block;
+        overflow: hidden;
         color: inherit;
         cursor: pointer;
         text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         &:hover {
             opacity: 0.85;
