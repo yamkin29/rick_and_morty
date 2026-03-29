@@ -77,6 +77,7 @@ export const CharacterCard = memo(({ data, onSave }: ICharacterCardWidgetProps) 
               to={`/characters/${data.id}`}
               className='character-card__title-link'
               aria-label='View Character'
+              title={data.name}
             >
               {data.name}
             </Link>

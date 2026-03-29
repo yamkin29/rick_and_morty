@@ -11,6 +11,7 @@ import type { ICharacterData } from '@/shared/types';
 export const useCharacter = (id: string | undefined) => {
   const [character, setCharacter] = useState<ICharacterData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -22,6 +23,7 @@ export const useCharacter = (id: string | undefined) => {
 
     const loadCharacter = async () => {
       setIsLoading(true);
+      setIsNotFound(false);
 
       try {
         const result = await api.get<IApiCharacterDetails>(`/character/${id}`, {
@@ -41,7 +43,7 @@ export const useCharacter = (id: string | undefined) => {
         setCharacter(null);
 
         if (IsNotFoundError(e)) {
-          toast.error('Character not found.');
+          setIsNotFound(true);
           return;
         }
 
@@ -61,5 +63,5 @@ export const useCharacter = (id: string | undefined) => {
     };
   }, [id]);
 
-  return { character, isLoading };
+  return { character, isLoading, isNotFound };
 };

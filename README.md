@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# Rick and Morty
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Одностраничное React-приложение для просмотра персонажей вселенной Rick and Morty.
+Проект получает данные из публичного API, показывает список персонажей, позволяет фильтровать результаты, открывать страницу конкретного персонажа и обрабатывает несуществующие маршруты через страницу `404`.
 
-Currently, two official plugins are available:
+## Что реализовано
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- список персонажей с загрузкой данных по API;
+- фильтрация по имени, виду, полу и статусу;
+- бесконечная подгрузка карточек при прокрутке списка;
+- переход на страницу конкретного персонажа;
+- отдельная страница с детальной информацией о персонаже;
+- редактирование части данных прямо в карточке персонажа;
+- обработка ошибок загрузки через toast-уведомления;
+- редирект на страницу `404` для несуществующих маршрутов;
+- редирект на страницу `404` при запросе несуществующего персонажа.
 
-## React Compiler
+## Где посмотреть
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- GitHub Pages: [https://yamkin29.github.io/rick_and_morty/](https://yamkin29.github.io/rick_and_morty/)
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Axios
+- Sass
+- ESLint
+- Stylelint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Как запустить локально
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked
+### 1. Установить зависимости
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname
-      }
-      // other options...
-    }
-  }
-]);
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Запустить dev-сервер
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname
-      }
-      // other options...
-    }
-  }
-]);
+```bash
+npm run dev
 ```
+
+После запуска приложение будет доступно по локальному адресу, который покажет Vite в терминале.
+
+## Полезные команды
+
+### Сборка production-версии
+
+```bash
+npm run build
+```
+
+### Локальный просмотр production-сборки
+
+```bash
+npm run preview
+```
+
+### Проверка ESLint
+
+```bash
+npm run lint
+```
+
+### Проверка стилей
+
+```bash
+npm run lint:styles
+```
+
+## Деплой
+
+Проект настроен на автоматический деплой через GitHub Actions и GitHub Pages.
+
+Workflow:
+
+- устанавливает зависимости;
+- запускает `eslint`;
+- запускает `stylelint`;
+- собирает production-версию проекта;
+- публикует содержимое `dist` на GitHub Pages.
+
+## Структура приложения
+
+- `/characters` — список персонажей;
+- `/characters/:id` — страница конкретного персонажа;
+- `/404` — страница для несуществующих маршрутов и отсутствующих персонажей.

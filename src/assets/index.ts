@@ -9,3 +9,4 @@ export { default as SunIcon } from './icons/sun.svg?react';
 export { default as LoadingIcon } from './images/loader.svg';
 export { default as LoadingSmallIcon } from './images/loaderSmall.svg';
 export { default as MainIcon } from './images/main.svg';
+export { default as NotFoundIcon } from './images/notFound.svg';

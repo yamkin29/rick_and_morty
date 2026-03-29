@@ -37,8 +37,18 @@ export const App = () => {
             />
 
             <Route
-              path='*'
+              path='/404'
               element={<NotFoundPage />}
+            />
+
+            <Route
+              path='*'
+              element={
+                <Navigate
+                  to='/404'
+                  replace
+                />
+              }
             />
           </Routes>
         </ErrorBoundary>
