@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router';
+import { Link, Navigate, useParams } from 'react-router';
 
 import { BackIcon } from '@/assets';
 import { useCharacter } from '@/pages/characterPage';
@@ -12,7 +12,7 @@ const characterInfoKeys = ['gender', 'status', 'species', 'origin', 'type', 'loc
 export const CharacterPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { character, isLoading } = useCharacter(id);
+  const { character, isLoading, isNotFound } = useCharacter(id);
 
   if (isLoading) {
     return (
@@ -22,6 +22,15 @@ export const CharacterPage = () => {
           text='Loading character...'
         />
       </div>
+    );
+  }
+
+  if (isNotFound) {
+    return (
+      <Navigate
+        to='/404'
+        replace
+      />
     );
   }
 
