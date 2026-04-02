@@ -11,14 +11,15 @@ export const InfinityScroll = ({ loader, isLoadingMore, hasMore, onLoadMore }: I
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!sentinelRef.current) {
+    if (!sentinelRef.current || !hasMore || isLoadingMore) {
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, observerInstance) => {
       const entry = entries[0];
 
-      if (entry.isIntersecting && hasMore && !isLoadingMore) {
+      if (entry.isIntersecting) {
+        observerInstance.disconnect();
         onLoadMore();
       }
     });
