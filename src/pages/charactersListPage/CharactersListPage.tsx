@@ -37,7 +37,10 @@ export const CharactersListPage = () => {
         })}
       >
         {isInitialLoading ? (
-          <Loader size='large' />
+          <Loader
+            size='large'
+            text='Loading characters...'
+          />
         ) : characters.length === 0 ? (
           <div className='characters-list-page__empty-state'>Character list is empty...</div>
         ) : (

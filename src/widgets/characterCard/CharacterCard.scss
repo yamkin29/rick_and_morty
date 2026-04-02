@@ -49,10 +49,6 @@
         letter-spacing: 0.15px;
         font-weight: 500;
         margin-bottom: 10px;
-
-        .input__button--clear {
-            display: none;
-        }
     }
 
     &__title-link {
@@ -101,7 +97,10 @@
         --input-letter-spacing: 0.25px;
         --input-height: 21px;
         --input-width: 115px;
+    }
 
+    &__title,
+    &__location {
         .input__button--clear {
             border: none;
             width: 20px;
