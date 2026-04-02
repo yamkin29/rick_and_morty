@@ -1,3 +1,10 @@
+.header {
+    width: min(100%, 1020px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .header__logo {
     display: flex;
     justify-content: center;
