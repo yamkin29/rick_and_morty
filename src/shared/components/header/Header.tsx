@@ -20,7 +20,7 @@ export const Header = () => {
           className='header__button'
           type='button'
         >
-          <div className='header__button--text'>РУ</div>
+          <div className='header__button--text'>RU</div>
         </button>
       </div>
     </div>
