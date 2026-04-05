@@ -10,10 +10,16 @@ export const Header = () => {
         <LogoIcon />
       </div>
       <div className='header__actions'>
-        <button className={ClassNames('header__button', 'header__button--sun')}>
+        <button
+          className={ClassNames('header__button', 'header__button--sun')}
+          type='button'
+        >
           <SunIcon />
         </button>
-        <button className='header__button'>
+        <button
+          className='header__button'
+          type='button'
+        >
           <div className='header__button--text'>РУ</div>
         </button>
       </div>
