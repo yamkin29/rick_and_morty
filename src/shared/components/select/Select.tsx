@@ -1,5 +1,6 @@
-import { type ComponentType, useEffect, useRef, useState } from 'react';
+import { type ComponentType, type MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react';
 
+import { CloseIcon } from '@/assets';
 import { ClassNames } from '@/shared/helpers';
 
 import './Select.scss';
@@ -40,6 +41,8 @@ export const Select = <T,>({
   const selectRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find((option) => option.value === value);
+  const isPlaceholder = !selectedOption;
+  const showClear = value !== null && value !== undefined;
 
   const handleSelectClick = () => setIsOpen((prevState) => !prevState);
 
@@ -48,7 +51,13 @@ export const Select = <T,>({
     setIsOpen(false);
   };
 
-  const handleOutsideClick = (event: MouseEvent) => {
+  const handleClearClick = (event: ReactMouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onChange(null);
+    setIsOpen(false);
+  };
+
+  const handleOutsideClick = (event: globalThis.MouseEvent) => {
     if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
@@ -60,26 +69,46 @@ export const Select = <T,>({
     return () => document.removeEventListener('click', handleOutsideClick);
   }, []);
 
-  const isPlaceholder = !selectedOption;
-
   return (
     <div
       className={ClassNames('select', `select--${size}`, { 'select--open': isOpen }, className)}
       ref={selectRef}
     >
-      <button
-        className={ClassNames('select__header', { 'select__header--placeholder': isPlaceholder })}
-        onClick={handleSelectClick}
-        type='button'
-      >
-        <span className='select__value'>
-          {selectedOption ? <OptionComponent option={selectedOption} /> : placeholder}
-        </span>
-        <span
-          className='select__arrow'
-          aria-hidden='true'
-        />
-      </button>
+      <div className={ClassNames('select__header', { 'select__header--placeholder': isPlaceholder })}>
+        <button
+          className='select__trigger'
+          onClick={handleSelectClick}
+          type='button'
+        >
+          <span className='select__value'>
+            {selectedOption ? <OptionComponent option={selectedOption} /> : placeholder}
+          </span>
+        </button>
+
+        {showClear ? (
+          <button
+            className='select__clear'
+            type='button'
+            aria-label='Clear select'
+            onClick={handleClearClick}
+          >
+            <CloseIcon />
+          </button>
+        ) : (
+          <button
+            className='select__indicator'
+            type='button'
+            aria-label={isOpen ? 'Close select' : 'Open select'}
+            onClick={handleSelectClick}
+          >
+            <span
+              className='select__arrow'
+              aria-hidden='true'
+            />
+          </button>
+        )}
+      </div>
+
       {isOpen && (
         <ul className='select__options'>
           {options.map((option) => {
