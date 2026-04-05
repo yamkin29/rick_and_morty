@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
+import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
 import type { CharacterFilters } from '@/widgets/filterPanel';
 
@@ -19,11 +20,13 @@ export const useCharacters = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [filterValues, setFilterValues] = useState<CharacterFilters>({ name: '' });
 
+  const debouncedName = useDebounce(filterValues.name, 500);
+
   const controllerRef = useRef<AbortController | null>(null);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const failedLoadMorePageRef = useRef<number | null>(null);
 
-  const { name, species, gender, status } = filterValues;
+  const { species, gender, status } = filterValues;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -56,7 +59,7 @@ export const useCharacters = () => {
         const result = await api.get('/character', {
           signal: controller.signal,
           params: {
-            name,
+            name: debouncedName,
             species,
             gender,
             status,
@@ -128,7 +131,7 @@ export const useCharacters = () => {
         }
       }
     },
-    [clearPendingRetry, name, species, gender, status]
+    [clearPendingRetry, debouncedName, species, gender, status]
   );
 
   const handleLoadMore = useCallback(() => {
