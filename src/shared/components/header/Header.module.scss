@@ -3,66 +3,66 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
 
-.logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  margin: 5px 0;
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 11px 0;
-}
-
-.button {
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgb(57 57 57 / 100%);
-  border-radius: 8px;
-  background: rgb(255 255 255 / 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition:
-    background-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
-
-  &:hover {
-    background: rgb(0 0 0 / 4%);
-    box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+  &__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    margin: 5px 0;
   }
 
-  &:active {
-    background: rgb(0 0 0 / 8%);
-    transform: translateY(1px);
-    box-shadow: none;
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 11px 0;
   }
 
-  &:focus-visible {
-    outline: 2px solid rgb(57 57 57 / 35%);
-    outline-offset: 2px;
+  &__button {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgb(57 57 57 / 100%);
+    border-radius: 8px;
+    background: rgb(255 255 255 / 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+
+    &:hover {
+      background: rgb(0 0 0 / 4%);
+      box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+    }
+
+    &:active {
+      background: rgb(0 0 0 / 8%);
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgb(57 57 57 / 35%);
+      outline-offset: 2px;
+    }
+
+    &--sun {
+      margin-right: 15px;
+    }
+
+    &-text {
+      color: rgb(0 0 0 / 60%);
+      font-family: Roboto, sans-serif;
+      font-style: normal;
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 21px;
+      letter-spacing: 0.25px;
+      text-align: left;
+    }
   }
-}
-
-.buttonSun {
-  margin-right: 15px;
-}
-
-.buttonText {
-  color: rgb(0 0 0 / 60%);
-  font-family: Roboto, sans-serif;
-  font-style: normal;
-  font-size: 25px;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0.25px;
-  text-align: left;
 }
