@@ -20,6 +20,7 @@ $select-arrow-color: rgb(0 0 0 / 55%);
     --select-padding: 14px;
     --select-arrow-size: 24px;
     --select-option-height: 40px;
+    --select-clear-size: 12px;
 
     width: 240px;
   }
@@ -30,8 +31,10 @@ $select-arrow-color: rgb(0 0 0 / 55%);
     --select-line-height: 21px;
     --select-letter-spacing: 0.25px;
     --select-padding: 4px;
+    --select-gap: 0;
     --select-arrow-size: 9.4px;
     --select-option-height: 21px;
+    --select-clear-size: 10px;
 
     width: 94px;
 
@@ -51,18 +54,30 @@ $select-arrow-color: rgb(0 0 0 / 55%);
   &__header {
     width: 100%;
     height: var(--select-height);
-    padding: 0 var(--select-padding);
     border: 1px solid var(--select-border);
     border-radius: var(--select-radius);
     background: var(--select-bg);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--select-gap);
     font-size: var(--select-font-size);
     line-height: var(--select-line-height);
     letter-spacing: var(--select-letter-spacing);
     color: var(--select-text);
+    overflow: hidden;
+
+    &--placeholder {
+      color: var(--select-text);
+    }
+  }
+
+  &__trigger,
+  &__indicator,
+  &__clear {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0;
     cursor: pointer;
 
     &:hover {
@@ -75,12 +90,28 @@ $select-arrow-color: rgb(0 0 0 / 55%);
 
     &:focus-visible {
       outline: 2px solid rgb(57 57 57 / 35%);
-      outline-offset: 2px;
+      outline-offset: -2px;
     }
+  }
 
-    &--placeholder {
-      color: var(--select-text);
-    }
+  &__trigger {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 0 0 var(--select-padding);
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font: inherit;
+  }
+
+  &__indicator,
+  &__clear {
+    width: calc(var(--select-arrow-size) + var(--select-padding));
+    height: 100%;
+    flex: 0 0 calc(var(--select-arrow-size) + var(--select-padding));
+    display: grid;
+    place-items: center;
   }
 
   &__value {
@@ -88,19 +119,14 @@ $select-arrow-color: rgb(0 0 0 / 55%);
     align-items: center;
     gap: 6px;
     min-width: 0;
-    padding-right: calc(var(--select-arrow-size) + 8px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   &__arrow {
-    position: absolute;
-    right: var(--select-padding);
-    top: 50%;
     width: var(--select-arrow-size);
     height: var(--select-arrow-size);
-    transform: translateY(-50%);
     display: grid;
     place-items: center;
     pointer-events: none;
@@ -114,6 +140,11 @@ $select-arrow-color: rgb(0 0 0 / 55%);
       border-top: 6px solid $select-arrow-color;
       transition: transform 160ms ease;
     }
+  }
+
+  &__clear svg {
+    width: var(--select-clear-size);
+    height: var(--select-clear-size);
   }
 
   &__options {

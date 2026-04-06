@@ -1,4 +1,5 @@
-import { LoadingIcon, LoadingSmallIcon } from '@/assets';
+import { LoadingIcon } from '@/assets';
+import { ClassNames } from '@/shared/helpers';
 
 import './Loader.scss';
 
@@ -7,25 +8,15 @@ interface ILoaderProps {
   text?: string;
 }
 
-export const Loader = ({ size, text = 'Loading characters...' }: ILoaderProps) => {
-  return size === 'large' ? (
-    <div className='loader'>
-      <div className='loader__logo'>
-        <img
-          src={LoadingIcon}
-          alt='Loading characters...'
-        />
-      </div>
-      <div className='loader__text'>{text}</div>
-    </div>
-  ) : (
-    <div className='loader'>
-      <div className='loader__logo'>
-        <img
-          src={LoadingSmallIcon}
-          alt='Loading characters...'
-        />
-      </div>
+export const Loader = ({ size, text }: ILoaderProps) => {
+  return (
+    <div className={ClassNames('loader', `loader_size_${size}`)}>
+      <img
+        className='loader__img'
+        src={LoadingIcon}
+        alt='Loading characters...'
+      />
+      {text && <p className='loader__text'>{text}</p>}
     </div>
   );
 };
