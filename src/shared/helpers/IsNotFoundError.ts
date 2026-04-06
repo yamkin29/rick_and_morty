@@ -1,3 +1,4 @@
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
-export const IsNotFoundError = (error: unknown) => axios.isAxiosError(error) && error.response?.status === 404;
+export const IsNotFoundError = (error: unknown) =>
+  axios.isAxiosError(error) && error.response?.status === HttpStatusCode.NotFound;

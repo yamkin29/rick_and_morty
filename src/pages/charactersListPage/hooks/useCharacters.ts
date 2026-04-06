@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
 
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
 import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
@@ -100,7 +100,8 @@ export const useCharacters = () => {
         }
 
         if (mode === 'loadMore') {
-          const shouldRetrySilently = axios.isAxiosError(e) && (!e.response || e.response.status === 429);
+          const shouldRetrySilently =
+            axios.isAxiosError(e) && (!e.response || e.response.status === HttpStatusCode.TooManyRequests);
 
           if (shouldRetrySilently) {
             shouldKeepLoadingMore = true;

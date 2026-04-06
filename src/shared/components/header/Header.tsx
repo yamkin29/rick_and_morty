@@ -1,26 +1,26 @@
 import { LogoIcon, SunIcon } from '@/assets';
 import { ClassNames } from '@/shared/helpers';
 
-import './Header.scss';
+import styles from './Header.module.scss';
 
 export const Header = () => {
   return (
-    <div className='header'>
-      <div className='header__logo'>
+    <div className={styles.header}>
+      <div className={styles.logo}>
         <LogoIcon />
       </div>
-      <div className='header__actions'>
+      <div className={styles.actions}>
         <button
-          className={ClassNames('header__button', 'header__button--sun')}
+          className={ClassNames(styles.button, styles.buttonSun)}
           type='button'
         >
           <SunIcon />
         </button>
         <button
-          className='header__button'
+          className={styles.button}
           type='button'
         >
-          <div className='header__button--text'>RU</div>
+          <div className={styles.buttonText}>RU</div>
         </button>
       </div>
     </div>
