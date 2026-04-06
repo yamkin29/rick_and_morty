@@ -42,7 +42,7 @@ export const Select = <T,>({
 
   const selectedOption = options.find((option) => option.value === value);
   const isPlaceholder = !selectedOption;
-  const showClear = value !== null && value !== undefined;
+  const showClear = size === 'medium' && value !== null && value !== undefined;
 
   const handleSelectClick = () => setIsOpen((prevState) => !prevState);
 
