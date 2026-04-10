@@ -17,7 +17,8 @@ export const CharactersListPage = () => {
     isLoadingMore,
     hasMore,
     handleLoadMore,
-    handleCharacterSave
+    handleCharacterSave,
+    isPending
   } = useCharacters();
 
   return (
@@ -36,7 +37,7 @@ export const CharactersListPage = () => {
           'characters-list-page__results--empty': !isInitialLoading && characters.length === 0
         })}
       >
-        {isInitialLoading ? (
+        {isInitialLoading && characters.length === 0 ? (
           <Loader
             size='large'
             text='Loading characters...'
@@ -45,6 +46,8 @@ export const CharactersListPage = () => {
           <div className='characters-list-page__empty-state'>Character list is empty...</div>
         ) : (
           <>
+            {isPending && characters.length > 0 && <div>Updating...</div>}
+
             <div className='characters-list-page__grid'>
               {characters.map((character: ICharacterData) => (
                 <CharacterCard

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 
 import { toast } from 'react-hot-toast';
 
@@ -6,7 +6,6 @@ import axios, { HttpStatusCode } from 'axios';
 
 import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
-import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
 import type { CharacterFilters } from '@/widgets/filterPanel';
 
@@ -20,13 +19,13 @@ export const useCharacters = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [filterValues, setFilterValues] = useState<CharacterFilters>({ name: '' });
 
-  const debouncedName = useDebounce(filterValues.name, 500);
+  const [isPending, startTransition] = useTransition();
 
   const controllerRef = useRef<AbortController | null>(null);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const failedLoadMorePageRef = useRef<number | null>(null);
 
-  const { species, gender, status } = filterValues;
+  const { name, species, gender, status } = filterValues;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -59,7 +58,7 @@ export const useCharacters = () => {
         const result = await api.get('/character', {
           signal: controller.signal,
           params: {
-            name: debouncedName,
+            name,
             species,
             gender,
             status,
@@ -75,13 +74,17 @@ export const useCharacters = () => {
           CharacterAdapter(item)
         );
 
-        setHasMore(result.data.info.next !== null);
         failedLoadMorePageRef.current = null;
-        setPage(pageToLoad);
 
         if (mode === 'initial') {
-          setCharacters(nextCharacters);
+          startTransition(() => {
+            setHasMore(result.data.info.next !== null);
+            setPage(pageToLoad);
+            setCharacters(nextCharacters);
+          });
         } else {
+          setHasMore(result.data.info.next !== null);
+          setPage(pageToLoad);
           setCharacters((prev) => [...prev, ...nextCharacters]);
         }
       } catch (e: unknown) {
@@ -91,9 +94,11 @@ export const useCharacters = () => {
 
         if (IsNotFoundError(e)) {
           if (mode === 'initial') {
-            setCharacters([]);
-            setHasMore(false);
-            setPage(1);
+            startTransition(() => {
+              setCharacters([]);
+              setHasMore(false);
+              setPage(1);
+            });
           }
 
           return;
@@ -132,7 +137,7 @@ export const useCharacters = () => {
         }
       }
     },
-    [clearPendingRetry, debouncedName, species, gender, status]
+    [clearPendingRetry, name, species, gender, status]
   );
 
   const handleLoadMore = useCallback(() => {
@@ -168,6 +173,7 @@ export const useCharacters = () => {
     isLoadingMore,
     hasMore,
     handleLoadMore,
-    handleCharacterSave
+    handleCharacterSave,
+    isPending
   };
 };
