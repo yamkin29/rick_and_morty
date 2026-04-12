@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { toast } from 'react-hot-toast';
 
@@ -13,12 +13,6 @@ import { charactersListStore } from '@/store/store';
 type LoadMode = 'initial' | 'loadMore';
 
 export const useCharacters = () => {
-  const [characters, setCharacters] = useState<ICharacterData[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-
   const debouncedName = useDebounce(charactersListStore.filterValues.name, 500);
 
   const controllerRef = useRef<AbortController | null>(null);
@@ -26,6 +20,22 @@ export const useCharacters = () => {
   const failedLoadMorePageRef = useRef<number | null>(null);
 
   const { species, gender, status } = charactersListStore.filterValues;
+
+  const {
+    characters,
+    setCharacters,
+    appendCharacters,
+    updateCharacter,
+    isInitialLoading,
+    setInitialLoading,
+    page,
+    setPage,
+    hasMore,
+    setHasMore,
+    isLoadingMore,
+    setLoadingMore,
+    canLoadMore
+  } = charactersListStore;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -49,9 +59,9 @@ export const useCharacters = () => {
 
       if (mode === 'initial') {
         failedLoadMorePageRef.current = null;
-        setIsInitialLoading(true);
+        setInitialLoading(true);
       } else {
-        setIsLoadingMore(true);
+        setLoadingMore(true);
       }
 
       try {
@@ -81,7 +91,7 @@ export const useCharacters = () => {
         if (mode === 'initial') {
           setCharacters(nextCharacters);
         } else {
-          setCharacters((prev) => [...prev, ...nextCharacters]);
+          appendCharacters(nextCharacters);
         }
       } catch (e: unknown) {
         if (axios.isCancel(e)) {
@@ -124,31 +134,44 @@ export const useCharacters = () => {
 
         if (!controller.signal.aborted && !shouldKeepLoadingMore) {
           if (mode === 'initial') {
-            setIsInitialLoading(false);
+            setInitialLoading(false);
           } else {
-            setIsLoadingMore(false);
+            setLoadingMore(false);
           }
         }
       }
     },
-    [clearPendingRetry, debouncedName, species, gender, status]
+    [
+      clearPendingRetry,
+      appendCharacters,
+      setCharacters,
+      setInitialLoading,
+      setLoadingMore,
+      setHasMore,
+      setPage,
+      debouncedName,
+      species,
+      gender,
+      status
+    ]
   );
 
   const handleLoadMore = useCallback(() => {
     const nextPage = page + 1;
 
-    if (isInitialLoading || isLoadingMore || !hasMore || failedLoadMorePageRef.current === nextPage) {
+    if (!canLoadMore || failedLoadMorePageRef.current === nextPage) {
       return;
     }
 
     void fetchCharacters(nextPage, 'loadMore');
-  }, [fetchCharacters, hasMore, isInitialLoading, isLoadingMore, page]);
+  }, [fetchCharacters, canLoadMore, page]);
 
-  const handleCharacterSave = useCallback((updatedCharacter: ICharacterData) => {
-    setCharacters((prev) =>
-      prev.map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character))
-    );
-  }, []);
+  const handleCharacterSave = useCallback(
+    (updatedCharacter: ICharacterData) => {
+      updateCharacter(updatedCharacter);
+    },
+    [updateCharacter]
+  );
 
   useEffect(() => {
     void fetchCharacters(1, 'initial');
