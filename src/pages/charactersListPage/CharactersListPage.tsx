@@ -13,6 +13,7 @@ import './CharactersListPage.scss';
 
 export const CharactersListPage = observer(() => {
   const { characters, isInitialLoading, isLoadingMore, hasMore, handleLoadMore, handleCharacterSave } = useCharacters();
+  const { filterValues, setFilterValues, isEmpty } = charactersListStore;
 
   return (
     <div className='characters-list-page'>
@@ -22,12 +23,12 @@ export const CharactersListPage = observer(() => {
         className='characters-list-page__logo'
       />
       <FilterPanel
-        values={charactersListStore.filterValues}
-        onChange={charactersListStore.setFilterValues}
+        values={filterValues}
+        onChange={setFilterValues}
       />
       <div
         className={ClassNames('characters-list-page__results', {
-          'characters-list-page__results--empty': !isInitialLoading && characters.length === 0
+          'characters-list-page__results--empty': isEmpty
         })}
       >
         {isInitialLoading ? (
@@ -35,7 +36,7 @@ export const CharactersListPage = observer(() => {
             size='large'
             text='Loading characters...'
           />
-        ) : characters.length === 0 ? (
+        ) : isEmpty ? (
           <div className='characters-list-page__empty-state'>Character list is empty...</div>
         ) : (
           <>
