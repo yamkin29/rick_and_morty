@@ -21,21 +21,7 @@ export const useCharacters = () => {
 
   const { species, gender, status } = charactersListStore.filterValues;
 
-  const {
-    characters,
-    setCharacters,
-    appendCharacters,
-    updateCharacter,
-    isInitialLoading,
-    setInitialLoading,
-    page,
-    setPage,
-    hasMore,
-    setHasMore,
-    isLoadingMore,
-    setLoadingMore,
-    canLoadMore
-  } = charactersListStore;
+  const store = charactersListStore;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -59,9 +45,9 @@ export const useCharacters = () => {
 
       if (mode === 'initial') {
         failedLoadMorePageRef.current = null;
-        setInitialLoading(true);
+        store.setInitialLoading(true);
       } else {
-        setLoadingMore(true);
+        store.setLoadingMore(true);
       }
 
       try {
@@ -84,14 +70,14 @@ export const useCharacters = () => {
           CharacterAdapter(item)
         );
 
-        setHasMore(result.data.info.next !== null);
+        store.setHasMore(result.data.info.next !== null);
         failedLoadMorePageRef.current = null;
-        setPage(pageToLoad);
+        store.setPage(pageToLoad);
 
         if (mode === 'initial') {
-          setCharacters(nextCharacters);
+          store.setCharacters(nextCharacters);
         } else {
-          appendCharacters(nextCharacters);
+          store.appendCharacters(nextCharacters);
         }
       } catch (e: unknown) {
         if (axios.isCancel(e)) {
@@ -100,9 +86,9 @@ export const useCharacters = () => {
 
         if (IsNotFoundError(e)) {
           if (mode === 'initial') {
-            setCharacters([]);
-            setHasMore(false);
-            setPage(1);
+            store.setCharacters([]);
+            store.setHasMore(false);
+            store.setPage(1);
           }
 
           return;
@@ -134,43 +120,29 @@ export const useCharacters = () => {
 
         if (!controller.signal.aborted && !shouldKeepLoadingMore) {
           if (mode === 'initial') {
-            setInitialLoading(false);
+            store.setInitialLoading(false);
           } else {
-            setLoadingMore(false);
+            store.setLoadingMore(false);
           }
         }
       }
     },
-    [
-      clearPendingRetry,
-      appendCharacters,
-      setCharacters,
-      setInitialLoading,
-      setLoadingMore,
-      setHasMore,
-      setPage,
-      debouncedName,
-      species,
-      gender,
-      status
-    ]
+    [clearPendingRetry, store, debouncedName, species, gender, status]
   );
 
   const handleLoadMore = useCallback(() => {
-    const nextPage = page + 1;
-
-    if (!canLoadMore || failedLoadMorePageRef.current === nextPage) {
+    if (!store.canLoadMore || failedLoadMorePageRef.current === store.nextPage) {
       return;
     }
 
-    void fetchCharacters(nextPage, 'loadMore');
-  }, [fetchCharacters, canLoadMore, page]);
+    void fetchCharacters(store.nextPage, 'loadMore');
+  }, [fetchCharacters, store.canLoadMore, store.nextPage]);
 
   const handleCharacterSave = useCallback(
     (updatedCharacter: ICharacterData) => {
-      updateCharacter(updatedCharacter);
+      store.updateCharacter(updatedCharacter);
     },
-    [updateCharacter]
+    [store]
   );
 
   useEffect(() => {
@@ -183,10 +155,6 @@ export const useCharacters = () => {
   }, [clearPendingRetry, fetchCharacters]);
 
   return {
-    characters,
-    isInitialLoading,
-    isLoadingMore,
-    hasMore,
     handleLoadMore,
     handleCharacterSave
   };

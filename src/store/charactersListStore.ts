@@ -11,6 +11,18 @@ export class CharactersListStore {
   isLoadingMore = false;
   filterValues: CharacterFilters = { name: '' };
 
+  get isEmpty() {
+    return !this.isInitialLoading && this.characters.length === 0;
+  }
+
+  get canLoadMore() {
+    return !this.isInitialLoading && !this.isLoadingMore && this.hasMore;
+  }
+
+  get nextPage() {
+    return this.page + 1;
+  }
+
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -47,13 +59,5 @@ export class CharactersListStore {
 
   setLoadingMore(value: boolean) {
     this.isLoadingMore = value;
-  }
-
-  get isEmpty() {
-    return !this.isInitialLoading && this.characters.length === 0;
-  }
-
-  get canLoadMore() {
-    return !this.isInitialLoading && !this.isLoadingMore && this.hasMore;
   }
 }

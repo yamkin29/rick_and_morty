@@ -12,8 +12,9 @@ import { CharacterCard, FilterPanel } from '@/widgets';
 import './CharactersListPage.scss';
 
 export const CharactersListPage = observer(() => {
-  const { characters, isInitialLoading, isLoadingMore, hasMore, handleLoadMore, handleCharacterSave } = useCharacters();
-  const { filterValues, setFilterValues, isEmpty } = charactersListStore;
+  const { handleLoadMore, handleCharacterSave } = useCharacters();
+  const { filterValues, setFilterValues, isEmpty, characters, isInitialLoading, isLoadingMore, hasMore } =
+    charactersListStore;
 
   return (
     <div className='characters-list-page'>
