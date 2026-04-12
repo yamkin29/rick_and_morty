@@ -8,7 +8,7 @@ import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
-import type { CharacterFilters } from '@/widgets/filterPanel';
+import { charactersListStore } from '@/store/store';
 
 type LoadMode = 'initial' | 'loadMore';
 
@@ -18,15 +18,14 @@ export const useCharacters = () => {
   const [hasMore, setHasMore] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [filterValues, setFilterValues] = useState<CharacterFilters>({ name: '' });
 
-  const debouncedName = useDebounce(filterValues.name, 500);
+  const debouncedName = useDebounce(charactersListStore.filterValues.name, 500);
 
   const controllerRef = useRef<AbortController | null>(null);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const failedLoadMorePageRef = useRef<number | null>(null);
 
-  const { species, gender, status } = filterValues;
+  const { species, gender, status } = charactersListStore.filterValues;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -162,8 +161,6 @@ export const useCharacters = () => {
 
   return {
     characters,
-    filterValues,
-    setFilterValues,
     isInitialLoading,
     isLoadingMore,
     hasMore,

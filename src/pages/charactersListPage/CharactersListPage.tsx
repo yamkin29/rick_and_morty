@@ -1,24 +1,18 @@
+import { observer } from 'mobx-react-lite';
+
 import { MainIcon } from '@/assets';
 import { useCharacters } from '@/pages/charactersListPage';
 import { Loader } from '@/shared/components';
 import { InfinityScroll } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
 import type { ICharacterData } from '@/shared/types';
+import { charactersListStore } from '@/store/store';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharactersListPage.scss';
 
-export const CharactersListPage = () => {
-  const {
-    characters,
-    filterValues,
-    setFilterValues,
-    isInitialLoading,
-    isLoadingMore,
-    hasMore,
-    handleLoadMore,
-    handleCharacterSave
-  } = useCharacters();
+export const CharactersListPage = observer(() => {
+  const { characters, isInitialLoading, isLoadingMore, hasMore, handleLoadMore, handleCharacterSave } = useCharacters();
 
   return (
     <div className='characters-list-page'>
@@ -28,8 +22,8 @@ export const CharactersListPage = () => {
         className='characters-list-page__logo'
       />
       <FilterPanel
-        values={filterValues}
-        onChange={setFilterValues}
+        values={charactersListStore.filterValues}
+        onChange={charactersListStore.setFilterValues}
       />
       <div
         className={ClassNames('characters-list-page__results', {
@@ -65,4 +59,4 @@ export const CharactersListPage = () => {
       </div>
     </div>
   );
-};
+});
