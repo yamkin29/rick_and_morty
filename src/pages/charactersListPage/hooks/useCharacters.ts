@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { toast } from 'react-hot-toast';
 
@@ -8,25 +8,20 @@ import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
-import type { CharacterFilters } from '@/widgets/filterPanel';
+import { charactersListStore } from '@/store/rootStore';
 
 type LoadMode = 'initial' | 'loadMore';
 
 export const useCharacters = () => {
-  const [characters, setCharacters] = useState<ICharacterData[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [filterValues, setFilterValues] = useState<CharacterFilters>({ name: '' });
-
-  const debouncedName = useDebounce(filterValues.name, 500);
+  const debouncedName = useDebounce(charactersListStore.filterValues.name, 500);
 
   const controllerRef = useRef<AbortController | null>(null);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const failedLoadMorePageRef = useRef<number | null>(null);
 
-  const { species, gender, status } = filterValues;
+  const { species, gender, status } = charactersListStore.filterValues;
+
+  const store = charactersListStore;
 
   const clearPendingRetry = useCallback(() => {
     if (retryTimeoutRef.current) {
@@ -50,9 +45,9 @@ export const useCharacters = () => {
 
       if (mode === 'initial') {
         failedLoadMorePageRef.current = null;
-        setIsInitialLoading(true);
+        store.setInitialLoading(true);
       } else {
-        setIsLoadingMore(true);
+        store.setLoadingMore(true);
       }
 
       try {
@@ -75,14 +70,14 @@ export const useCharacters = () => {
           CharacterAdapter(item)
         );
 
-        setHasMore(result.data.info.next !== null);
+        store.setHasMore(result.data.info.next !== null);
         failedLoadMorePageRef.current = null;
-        setPage(pageToLoad);
+        store.setPage(pageToLoad);
 
         if (mode === 'initial') {
-          setCharacters(nextCharacters);
+          store.setCharacters(nextCharacters);
         } else {
-          setCharacters((prev) => [...prev, ...nextCharacters]);
+          store.appendCharacters(nextCharacters);
         }
       } catch (e: unknown) {
         if (axios.isCancel(e)) {
@@ -91,9 +86,9 @@ export const useCharacters = () => {
 
         if (IsNotFoundError(e)) {
           if (mode === 'initial') {
-            setCharacters([]);
-            setHasMore(false);
-            setPage(1);
+            store.setCharacters([]);
+            store.setHasMore(false);
+            store.setPage(1);
           }
 
           return;
@@ -125,31 +120,30 @@ export const useCharacters = () => {
 
         if (!controller.signal.aborted && !shouldKeepLoadingMore) {
           if (mode === 'initial') {
-            setIsInitialLoading(false);
+            store.setInitialLoading(false);
           } else {
-            setIsLoadingMore(false);
+            store.setLoadingMore(false);
           }
         }
       }
     },
-    [clearPendingRetry, debouncedName, species, gender, status]
+    [clearPendingRetry, store, debouncedName, species, gender, status]
   );
 
   const handleLoadMore = useCallback(() => {
-    const nextPage = page + 1;
-
-    if (isInitialLoading || isLoadingMore || !hasMore || failedLoadMorePageRef.current === nextPage) {
+    if (!store.canLoadMore || failedLoadMorePageRef.current === store.nextPage) {
       return;
     }
 
-    void fetchCharacters(nextPage, 'loadMore');
-  }, [fetchCharacters, hasMore, isInitialLoading, isLoadingMore, page]);
+    void fetchCharacters(store.nextPage, 'loadMore');
+  }, [fetchCharacters, store.canLoadMore, store.nextPage]);
 
-  const handleCharacterSave = useCallback((updatedCharacter: ICharacterData) => {
-    setCharacters((prev) =>
-      prev.map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character))
-    );
-  }, []);
+  const handleCharacterSave = useCallback(
+    (updatedCharacter: ICharacterData) => {
+      store.updateCharacter(updatedCharacter);
+    },
+    [store]
+  );
 
   useEffect(() => {
     void fetchCharacters(1, 'initial');
@@ -161,12 +155,6 @@ export const useCharacters = () => {
   }, [clearPendingRetry, fetchCharacters]);
 
   return {
-    characters,
-    filterValues,
-    setFilterValues,
-    isInitialLoading,
-    isLoadingMore,
-    hasMore,
     handleLoadMore,
     handleCharacterSave
   };
