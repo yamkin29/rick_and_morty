@@ -6,7 +6,7 @@ import { Loader } from '@/shared/components';
 import { InfinityScroll } from '@/shared/components';
 import { ClassNames } from '@/shared/helpers';
 import type { ICharacterData } from '@/shared/types';
-import { charactersListStore } from '@/store/store';
+import { charactersListStore } from '@/store/rootStore';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharactersListPage.scss';

@@ -8,7 +8,7 @@ import { api } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
-import { charactersListStore } from '@/store/store';
+import { charactersListStore } from '@/store/rootStore';
 
 type LoadMode = 'initial' | 'loadMore';
 
