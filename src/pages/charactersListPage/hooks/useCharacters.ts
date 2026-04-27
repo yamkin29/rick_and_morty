@@ -1,160 +1,87 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 
-import { toast } from 'react-hot-toast';
+import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
-import axios, { HttpStatusCode } from 'axios';
-
-import { api } from '@/api';
-import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
+import { characterKeys, fetchCharactersPage, type IApiCharactersPage } from '@/api';
+import { CharacterAdapter, IsNotFoundError } from '@/shared/helpers';
 import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
 import { charactersListStore } from '@/store/rootStore';
 
-type LoadMode = 'initial' | 'loadMore';
+type CharactersPage = {
+  characters: ICharacterData[];
+  nextPage?: number;
+};
+
+const emptyCharactersPage: IApiCharactersPage = {
+  info: {
+    next: null
+  },
+  results: []
+};
 
 export const useCharacters = () => {
   const debouncedName = useDebounce(charactersListStore.filterValues.name, 500);
-
-  const controllerRef = useRef<AbortController | null>(null);
-  const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const failedLoadMorePageRef = useRef<number | null>(null);
-
   const { species, gender, status } = charactersListStore.filterValues;
+  const queryClient = useQueryClient();
 
-  const store = charactersListStore;
+  const filters = {
+    name: debouncedName,
+    species,
+    gender,
+    status
+  };
+  const queryKey = characterKeys.list(filters);
 
-  const clearPendingRetry = useCallback(() => {
-    if (retryTimeoutRef.current) {
-      clearTimeout(retryTimeoutRef.current);
-      retryTimeoutRef.current = null;
-    }
-  }, []);
-
-  const fetchCharacters = useCallback(
-    async (pageToLoad: number, mode: LoadMode) => {
-      clearPendingRetry();
-
-      if (mode === 'initial' && controllerRef.current) {
-        controllerRef.current.abort();
-      }
-
-      const controller = new AbortController();
-      controllerRef.current = controller;
-
-      let shouldKeepLoadingMore = false;
-
-      if (mode === 'initial') {
-        failedLoadMorePageRef.current = null;
-        store.setInitialLoading(true);
-      } else {
-        store.setLoadingMore(true);
-      }
-
+  const query = useInfiniteQuery<
+    IApiCharactersPage,
+    Error,
+    InfiniteData<CharactersPage>,
+    ReturnType<typeof characterKeys.list>,
+    number
+  >({
+    queryKey,
+    initialPageParam: 1,
+    queryFn: async ({ pageParam, signal }) => {
       try {
-        const result = await api.get('/character', {
-          signal: controller.signal,
-          params: {
-            name: debouncedName,
-            species,
-            gender,
-            status,
-            page: pageToLoad
-          }
-        });
-
-        if (controller.signal.aborted) {
-          return;
+        return await fetchCharactersPage({ page: pageParam, filters, signal });
+      } catch (error: unknown) {
+        if (IsNotFoundError(error)) {
+          return emptyCharactersPage;
         }
 
-        const nextCharacters: ICharacterData[] = result.data.results.map((item: IApiCharacterDetails) =>
-          CharacterAdapter(item)
-        );
-
-        store.setHasMore(result.data.info.next !== null);
-        failedLoadMorePageRef.current = null;
-        store.setPage(pageToLoad);
-
-        if (mode === 'initial') {
-          store.setCharacters(nextCharacters);
-        } else {
-          store.appendCharacters(nextCharacters);
-        }
-      } catch (e: unknown) {
-        if (axios.isCancel(e)) {
-          return;
-        }
-
-        if (IsNotFoundError(e)) {
-          if (mode === 'initial') {
-            store.setCharacters([]);
-            store.setHasMore(false);
-            store.setPage(1);
-          }
-
-          return;
-        }
-
-        if (mode === 'loadMore') {
-          const shouldRetrySilently =
-            axios.isAxiosError(e) && (!e.response || e.response.status === HttpStatusCode.TooManyRequests);
-
-          if (shouldRetrySilently) {
-            shouldKeepLoadingMore = true;
-            retryTimeoutRef.current = setTimeout(() => {
-              void fetchCharacters(pageToLoad, 'loadMore');
-            }, 1500);
-            return;
-          }
-
-          failedLoadMorePageRef.current = pageToLoad;
-          console.error(e);
-          return;
-        }
-
-        const message = e instanceof Error ? e.message : 'Something went wrong.';
-        toast.error(message);
-      } finally {
-        if (controllerRef.current === controller) {
-          controllerRef.current = null;
-        }
-
-        if (!controller.signal.aborted && !shouldKeepLoadingMore) {
-          if (mode === 'initial') {
-            store.setInitialLoading(false);
-          } else {
-            store.setLoadingMore(false);
-          }
-        }
+        throw error;
       }
     },
-    [clearPendingRetry, store, debouncedName, species, gender, status]
-  );
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (lastPage.info.next ? lastPageParam + 1 : undefined),
+    select: (data) => ({
+      ...data,
+      pages: data.pages.map((page, index) => ({
+        characters: page.results.map(CharacterAdapter),
+        nextPage: page.info.next ? data.pageParams[index] + 1 : undefined
+      }))
+    })
+  });
+
+  const characters = query.data?.pages.flatMap((page) => page.characters) ?? [];
 
   const handleLoadMore = useCallback(() => {
-    if (!store.canLoadMore || failedLoadMorePageRef.current === store.nextPage) {
+    if (!query.hasNextPage || query.isFetchingNextPage) {
       return;
     }
 
-    void fetchCharacters(store.nextPage, 'loadMore');
-  }, [fetchCharacters, store.canLoadMore, store.nextPage]);
+    void query.fetchNextPage();
+  }, [query]);
 
-  const handleCharacterSave = useCallback(
-    (updatedCharacter: ICharacterData) => {
-      store.updateCharacter(updatedCharacter);
-    },
-    [store]
-  );
-
-  useEffect(() => {
-    void fetchCharacters(1, 'initial');
-
-    return () => {
-      clearPendingRetry();
-      controllerRef.current?.abort();
-    };
-  }, [clearPendingRetry, fetchCharacters]);
+  const handleCharacterSave = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: characterKeys.all });
+  }, [queryClient]);
 
   return {
+    characters,
+    hasNextPage: query.hasNextPage ?? false,
+    isFetchingNextPage: query.isFetchingNextPage,
+    isPending: query.isPending,
     handleLoadMore,
     handleCharacterSave
   };
