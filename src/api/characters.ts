@@ -1,4 +1,4 @@
-import type { IApiCharacterDetails } from '@/shared/helpers';
+import { type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import type { CharacterFilters } from '@/shared/types';
 
 import { api } from './api';
@@ -10,40 +10,52 @@ export interface IApiCharactersPage {
   results: IApiCharacterDetails[];
 }
 
+const emptyCharactersPage: IApiCharactersPage = {
+  info: {
+    next: null
+  },
+  results: []
+};
+
 interface FetchCharactersPageParams {
   page: number;
   filters: CharacterFilters;
   signal?: AbortSignal;
 }
 
-export const fetchCharactersPage = async ({
+export const fetchCharactersPage = ({
   page,
   filters,
   signal
-}: FetchCharactersPageParams): Promise<IApiCharactersPage> => {
-  const result = await api.get<IApiCharactersPage>('/character', {
-    signal,
-    params: {
-      name: filters.name || undefined,
-      species: filters.species,
-      gender: filters.gender,
-      status: filters.status,
-      page
-    }
-  });
+}: FetchCharactersPageParams): Promise<IApiCharactersPage> =>
+  api
+    .get<IApiCharactersPage>('/character', {
+      signal,
+      params: {
+        name: filters.name || undefined,
+        species: filters.species,
+        gender: filters.gender,
+        status: filters.status,
+        page
+      }
+    })
+    .then((response) => response.data)
+    .catch((error: unknown) => {
+      if (IsNotFoundError(error)) {
+        return emptyCharactersPage;
+      }
 
-  return result.data;
-};
+      throw error;
+    });
 
 interface FetchCharacterParams {
   id: string;
   signal?: AbortSignal;
 }
 
-export const fetchCharacter = async ({ id, signal }: FetchCharacterParams): Promise<IApiCharacterDetails> => {
-  const result = await api.get<IApiCharacterDetails>(`/character/${id}`, {
-    signal
-  });
-
-  return result.data;
-};
+export const fetchCharacter = ({ id, signal }: FetchCharacterParams): Promise<IApiCharacterDetails> =>
+  api
+    .get<IApiCharacterDetails>(`/character/${id}`, {
+      signal
+    })
+    .then((response) => response.data);

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { characterKeys, fetchCharactersPage, type IApiCharactersPage } from '@/api';
-import { CharacterAdapter, IsNotFoundError } from '@/shared/helpers';
+import { CharacterAdapter } from '@/shared/helpers';
 import { useDebounce } from '@/shared/hooks';
 import type { ICharacterData } from '@/shared/types';
 import { charactersListStore } from '@/store/rootStore';
@@ -11,13 +11,6 @@ import { charactersListStore } from '@/store/rootStore';
 type CharactersPage = {
   characters: ICharacterData[];
   nextPage?: number;
-};
-
-const emptyCharactersPage: IApiCharactersPage = {
-  info: {
-    next: null
-  },
-  results: []
 };
 
 export const useCharacters = () => {
@@ -42,17 +35,7 @@ export const useCharacters = () => {
   >({
     queryKey,
     initialPageParam: 1,
-    queryFn: async ({ pageParam, signal }) => {
-      try {
-        return await fetchCharactersPage({ page: pageParam, filters, signal });
-      } catch (error: unknown) {
-        if (IsNotFoundError(error)) {
-          return emptyCharactersPage;
-        }
-
-        throw error;
-      }
-    },
+    queryFn: ({ pageParam, signal }) => fetchCharactersPage({ page: pageParam, filters, signal }),
     getNextPageParam: (lastPage, _allPages, lastPageParam) => (lastPage.info.next ? lastPageParam + 1 : undefined),
     select: (data) => ({
       ...data,
