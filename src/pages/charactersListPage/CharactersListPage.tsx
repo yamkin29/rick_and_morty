@@ -12,9 +12,10 @@ import { CharacterCard, FilterPanel } from '@/widgets';
 import './CharactersListPage.scss';
 
 export const CharactersListPage = observer(() => {
-  const { handleLoadMore, handleCharacterSave } = useCharacters();
-  const { filterValues, setFilterValues, isEmpty, characters, isInitialLoading, isLoadingMore, hasMore } =
-    charactersListStore;
+  const { characters, hasNextPage, isFetchingNextPage, isPending, handleLoadMore, handleCharacterSave } =
+    useCharacters();
+  const { filterValues, setFilterValues } = charactersListStore;
+  const isEmpty = !isPending && characters.length === 0;
 
   return (
     <div className='characters-list-page'>
@@ -32,7 +33,7 @@ export const CharactersListPage = observer(() => {
           'characters-list-page__results--empty': isEmpty
         })}
       >
-        {isInitialLoading ? (
+        {isPending ? (
           <Loader
             size='large'
             text='Loading characters...'
@@ -51,9 +52,9 @@ export const CharactersListPage = observer(() => {
               ))}
             </div>
             <InfinityScroll
-              hasMore={hasMore}
+              hasMore={hasNextPage}
               loader={<Loader size='small' />}
-              isLoadingMore={isLoadingMore}
+              isLoadingMore={isFetchingNextPage}
               onLoadMore={handleLoadMore}
             />
           </>

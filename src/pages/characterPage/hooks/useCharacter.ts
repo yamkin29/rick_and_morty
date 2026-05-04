@@ -1,67 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { toast } from 'react-hot-toast';
-
-import axios from 'axios';
-
-import { api } from '@/api';
+import { characterKeys, fetchCharacter } from '@/api';
 import { CharacterAdapter, type IApiCharacterDetails, IsNotFoundError } from '@/shared/helpers';
 import type { ICharacterData } from '@/shared/types';
 
 export const useCharacter = (id: string | undefined) => {
-  const [character, setCharacter] = useState<ICharacterData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isNotFound, setIsNotFound] = useState(false);
+  const query = useQuery<IApiCharacterDetails, Error, ICharacterData>({
+    queryKey: characterKeys.detail(id),
+    enabled: Boolean(id),
+    queryFn: ({ signal }) => fetchCharacter({ id: id!, signal }),
+    select: CharacterAdapter
+  });
 
-  useEffect(() => {
-    if (!id) {
-      setIsLoading(false);
-      return;
-    }
+  const isNotFound = query.isError && IsNotFoundError(query.error);
 
-    const controller = new AbortController();
-
-    const loadCharacter = async () => {
-      setIsLoading(true);
-      setIsNotFound(false);
-
-      try {
-        const result = await api.get<IApiCharacterDetails>(`/character/${id}`, {
-          signal: controller.signal
-        });
-
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        setCharacter(CharacterAdapter(result.data));
-      } catch (e: unknown) {
-        if (axios.isCancel(e)) {
-          return;
-        }
-
-        setCharacter(null);
-
-        if (IsNotFoundError(e)) {
-          setIsNotFound(true);
-          return;
-        }
-
-        const message = e instanceof Error ? e.message : 'Something went wrong.';
-        toast.error(message);
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    void loadCharacter();
-
-    return () => {
-      controller.abort();
-    };
-  }, [id]);
-
-  return { character, isLoading, isNotFound };
+  return {
+    character: query.data ?? null,
+    isLoading: query.isPending,
+    isNotFound
+  };
 };
