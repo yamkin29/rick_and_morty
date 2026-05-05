@@ -1,4 +1,4 @@
 export * from './Capitalize';
 export * from './CharacterAdapter';
-export * from './ClassNames';
+export * from './classNames/ClassNames';
 export * from './IsNotFoundError';
