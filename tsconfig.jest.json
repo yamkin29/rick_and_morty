@@ -2,7 +2,8 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "verbatimModuleSyntax": false,
-    "types": ["jest", "node", "vite/client"]
+    "types": ["jest", "node", "vite/client", "@testing-library/jest-dom"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": []
 }
