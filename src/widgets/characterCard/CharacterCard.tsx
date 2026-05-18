@@ -63,7 +63,10 @@ export const CharacterCard = memo(({ data, onSave }: ICharacterCardWidgetProps) 
   };
 
   return (
-    <div className={ClassNames('character-card', `character-card--${mode}`)}>
+    <div
+      className={ClassNames('character-card', `character-card--${mode}`)}
+      data-testid='character-card'
+    >
       <div className='character-card__media'>
         <img
           src={data.image}
